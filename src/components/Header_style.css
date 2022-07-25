@@ -1,0 +1,39 @@
+@import '~antd/dist/antd.css';
+
+Header{
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  background: #fff;
+}
+
+.site-layout{
+  padding: 10px 30px;
+  margin-top: 80px;
+}
+.site-layout-background{
+  padding: 20px;
+  min-height: 550px;
+  background-color: white;
+}
+
+[data-theme="dark"] .site-layout .site-layout-background {
+  background: #141414;
+}
+
+Footer{
+  text-align: center;
+}
+
+.ant-layout-sider{
+  width:300px;
+  padding: 15px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index:101;
+
+}

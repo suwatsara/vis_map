@@ -1,0 +1,34 @@
+.upload{
+    margin-top:10px;
+    position: relative;
+    display: flex;
+    width: 100%;
+
+}
+.ant-btn{
+    margin-top: 5px;
+}
+
+.wrapper{
+    position: absolute;
+    top: 80px;
+    left:20px;
+    color:black;
+}
+.table{
+    width: 500px;
+    align-items: center;
+}
+table {
+    font-family: 'Inter', sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
