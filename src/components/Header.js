@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import './Header_style.css'
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { MapStylePicker } from '../controls';
 
 
 const { Header } = Layout;
@@ -37,7 +36,7 @@ const items = [
 ];
 
 const Nav = () => {
-    const [current, setCurrent] = useState('heart');
+    const [current, setCurrent] = useState('cluster');
     const onClick = (e) => {
         setCurrent(e.key);
     };

@@ -1,11 +1,13 @@
 import React from 'react'
-// import DeckglLayer from './deckglLayer'
+import GridLayerDisplay from './components/pages/Gridlayer'
+import Cluster from './components/pages/Cluster'
+import About from './components/pages/About';
 
 function app() {
   return (
 	<div className='App'>
-		<h1>Home</h1>
-		{/* <DeckglLayer /> */}
+		<About />
+		{/* <GridLayerDisplay /> */}
 
 	</div>
   )

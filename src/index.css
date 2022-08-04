@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
+
 	font-family: 'Inter', sans-serif;
-	font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body{
+	padding: 20px;
+	box-sizing: border-box;
+	margin: 0 ;
 }
 
 .App{
@@ -14,3 +17,21 @@
 	align-items: center;
 	margin-top: 80px;
 }
+
+.tooltip {
+	pointer-events: none; 
+	position: absolute; 
+	z-index: 9; 
+	font-size: 12px; 
+	padding: 8px; 
+	background: #000; 
+	color: #fff; 
+	min-width: 160px; 
+	max-height: 240px; 
+	overflow-y: hidden;
+}
+.tooltip.interactive {
+	pointer-events: all; 
+	background: #fcfcfc; 
+	color: #444; 
+	overflow-y: auto;}

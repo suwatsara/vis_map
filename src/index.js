@@ -11,12 +11,12 @@ import Header from './components/Header';
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
-      <Header />
+      {/* <Header /> */}
       <Routes>
-        <Route path="/" element={<App />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/cluster" element={<Clsuter />}></Route>
-        <Route path="/heatmap" element={<Heatmap />}></Route>
+        <Route path="/" element={<About />}></Route>
+        {/* <Route path="/about" element={<About />}></Route> */}
+        {/* <Route path="/cluster" element={<Clsuter />}></Route>
+        <Route path="/heatmap" element={<Heatmap />}></Route> */}
       </Routes>
 
     </HashRouter>

@@ -1,34 +1,124 @@
+.map{
+    position: absolute;
+    top: 50px;
+    width: 900px;
+    height: 600px;
+
+}
+
+.ControlPanel {
+    display: block;
+    position: absolute;
+    width: 600px;
+    align-items: center;
+    justify-content: center;
+    height: max-content;
+    top: 80px;
+    left: 390px;
+    border-radius: 5px;
+    background: #ffffff;
+    padding: 15px;
+    z-index: 100;
+}
+
+
 .upload{
     margin-top:10px;
+    margin-right: 20px;
     position: relative;
-    display: flex;
-    width: 100%;
-
-}
-.ant-btn{
-    margin-top: 5px;
-}
-
-.wrapper{
-    position: absolute;
-    top: 80px;
-    left:20px;
-    color:black;
-}
-.table{
-    width: 500px;
+    display: grid;
+    grid-template-columns: 120px 298px 1fr;
+    gap: 1rem;
     align-items: center;
-}
-table {
-    font-family: 'Inter', sans-serif;
-    border-collapse: collapse;
+    justify-content: center;
     width: 100%;
-    
+}
+
+
+label{
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.select{
+    position: relative;
+    display: block;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+select {
+    border: none;
+    outline: none;
+    background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 2px;
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: 31px;
+    padding: 0px 5px;
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    border: 0.4px solid #000000;
+}
+
+.select-form{
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: hsl(0, 0%, 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 2rem;
   }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+
+.custom-select:after {
+    content: '\25BC';
+    position: absolute;
+    top: 12px;
+    right: 0;
+    padding: 1em;
+    transition: .25s all ease;
+    pointer-events: none;
   }
-  
+
+.custom-select:hover::after {
+    color: #f39c12;
+  }
+
+button.Apply {
+    height: 32px;
+    margin-top: 31px;
+    cursor: pointer;
+  }
+
+button.Process {
+    width: 116px;
+    height: 32px;
+    cursor: pointer;
+  }
+
+.button-wrapper{
+    position: absolute;
+    top:240px;
+    display: block;
+    left: 18%;
+}
+button.showmap {
+    width: 100px;
+    position: absolute;
+    width: 100px;
+    top: 70px;
+    right: 25px;
+    background-color: #ffffff;
+    border-color: transparent;
+    z-index: 1;
+    cursor: pointer;
+}
+
