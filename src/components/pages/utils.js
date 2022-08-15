@@ -5,7 +5,7 @@ export const INITIAL_VIEW_STATE = {
 	longitude: 100.535242,
 	latitude: 13.727899,
 	zoom: 12,
-	pitch: 0,
+	pitch: 12,
 	bearing: 0
 };
 

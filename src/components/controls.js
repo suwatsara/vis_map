@@ -1,6 +1,5 @@
 import React, { Component, useState } from 'react';
 import styled from 'styled-components';
-import { mapStylePicker } from './style';
 import './controls.css'
 import Papa from "papaparse";
 
@@ -103,7 +102,7 @@ export function LayerControls() {
 			TimeStamp: time
 		});
 	};
-    console.log(selected)
+
 
 
     return (
@@ -220,20 +219,29 @@ export function LayerControls() {
 
 
 const SelectItem = styled.select`
-    height:25px;
-    width: 100px;
+    height:45px;
+    width: 140px;
+	align-items: center;
+	justify-content: center;
     background: white;
     color: black;
 	position: absolute;
-    top: 20px;
+	border-radius: 4px;
+    top: 14px;
     right: 20px;
     font-size: 14px;
-    appearance: none;
     padding: 0 30px 0 10px;
     margin: 0 5px 5px 0;
     border: transparent;
     border-radius: 3px;
 	z-index: 1;
+	-webkit-appearance: none;
+  	-moz-appearance: none;
+  	appearance: none;
+  	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAh0lEQVQ4T93TMQrCUAzG8V9x8QziiYSuXdzFC7h4AcELOPQAdXYovZCHEATlgQV5GFTe1ozJlz/kS1IpjKqw3wQBVyy++JI0y1GTe7DCBbMAckeNIQKk/BanALBB+16LtnDELoMcsM/BESDlz2heDR3WePwKSLo5eoxz3z6NNcFD+vu3ij14Aqz/DxGbKB7CAAAAAElFTkSuQmCC');
+  	background-repeat: no-repeat;
+  	background-position: 112px center;
+	cursor: pointer;
   option {
     color: black;
     background: white;

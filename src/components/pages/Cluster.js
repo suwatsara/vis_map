@@ -1,17 +1,23 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Map } from 'react-map-gl';
-import data from '../../data/gps_rama4_20181119.csv';
 import DeckGL from '@deck.gl/react';
-import { HeatmapLayer } from '@deck.gl/aggregation-layers';
+import { HeatmapLayer, GridLayer } from '@deck.gl/aggregation-layers';
 import { MapView } from '@deck.gl/core';
-import { IconLayer } from '@deck.gl/layers';
+import { EditableGeoJsonLayer, SelectionLayer } from "@nebula.gl/layers";
+import { IconLayer, ScatterplotLayer } from '@deck.gl/layers';
 import icon from '../../data/location-icon-atlas.png'
 import file from '../../data/location-icon-mapping.json'
 import IconClusterLayer from './IconClusterLayer';
 import { MapStylePicker } from '../controls';
 import './About.css'
+import styled from 'styled-components';
 import RangeInput from './range-input';
+import Chart from './Chart';
 import { mapboxAccessToken, INITIAL_VIEW_STATE, MAP_STYLE } from './utils';
+import CropDinIcon from '@mui/icons-material/CropDin';
+import PolylineIcon from '@mui/icons-material/Polyline';
+import EditIcon from '@mui/icons-material/Edit';
+import './GeometryEditor.css'
 
 
 const MAP_VIEW = new MapView({ repeat: true });
@@ -80,7 +86,6 @@ function formatLabel(t) {
 }
 
 
-
 export default function Cluster({
 	data,
 	iconMapping = file,
@@ -93,8 +98,26 @@ export default function Cluster({
 	const timeRange = useMemo(() => getTimeRange(data), [data])
 	const filterValue = filter || timeRange;
 	let filteredData = data.filter(d => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]);
+	const [hoverInfo, setHoverInfo] = useState({}); //hover info clsuter map
+	const [gridInfo, setGridInfo] = useState({}); // hover info gridlayer
+	const [selected, setSelected] = useState([]);
+	const [mode, setMode] = useState(null);
+	const radius = 5;
 
-	const [hoverInfo, setHoverInfo] = useState({});
+	const selectedLayer = new ScatterplotLayer({
+		id: "scatter-plot-selected",
+		data: selected,
+		radiusScale: radius,
+		radiusMinPixels: 2,
+		getPosition: (d) => {
+			return [d.longitude, d.latitude];
+		},
+		getFillColor: [255, 0, 0],
+		getRadius: 1,
+		pickable: true
+	});
+
+
 
 	const hideTooltip = () => {
 		setHoverInfo({});
@@ -103,7 +126,7 @@ export default function Cluster({
 		if (info.picked && showCluster) {
 			setHoverInfo(info);
 		} else {
-			setHoverInfo({});
+			setHoverInfo({ info });
 		}
 	};
 
@@ -112,6 +135,7 @@ export default function Cluster({
 	function onStyleChange(style) {
 		setState(style)
 	}
+
 
 	const layerProps = {
 		data: filteredData,
@@ -146,33 +170,75 @@ export default function Cluster({
 			intensity: 1,
 			threshold: 0.05,
 			getFilterValue: d => d.timestamp,
-			// filterRange: [filterValue[0], filterValue[1]],
-			// extensions: [dataFilter],
-			pickable: true,
 
 
 		})
 
-	const [activeLayer, setActiveLayer] = useState(0);
-	const [buttonText, setButtonText] = useState('Show Heat Map');
+	const layer3 = new GridLayer({
+		id: 'new-grid-layer',
+		data: filteredData,
+		pickable: true,
+		extruded: true,
+		cellSize: 100,
+		elevationScale: 4,
+		getPosition: d => [d.longitude, d.latitude],
+		getFilterValue: d => d.timestamp,
+		onHover: info => setGridInfo(info),
+		pickable: true,
 
+	})
+
+	const layer4 = [
+		new ScatterplotLayer({
+			id: "scatter-plot-4",
+			data: filteredData,
+			radiusScale: radius,
+			radiusMinPixels: 2,
+			getPosition: (d) => [d.longitude, d.latitude],
+			getFillColor: d => [255, 140, 0],
+			getRadius: 1,
+			pickable: true,
+		}),
+		selectedLayer,
+		new SelectionLayer({
+			id: "selection",
+			selectionType: mode,
+			onSelect: ({ pickingInfos }) => {
+				const newObjs = [];
+				for (const obj of pickingInfos) {
+					newObjs.push(obj.object);
+				}
+				setSelected(newObjs);
+			},
+			layerIds: ["scatter-plot-4"],
+			getTentativeFillColor: () => [255, 252, 196, 100],
+			getTentativeLineColor: () => [0, 0, 0, 100],
+			getTentativeLineDashArray: () => [0, 0],
+			lineWidthMinPixels: 1
+		})
+
+	];
+
+	const LAYERS = [
+		{ label: 'Cluster Layer', value: 0 },
+		{ label: 'Heatmap', value: 1 },
+		{ label: 'Gridlayer', value: 2 },
+		{ label: 'Scattter Plot', value: 3 }
+	];
+
+
+	const [activeLayer, setActiveLayer] = useState(0);
 
 	const getLayers = () => {
 		if (activeLayer === 0) return layer1;
-		return layer2;
-	};
-	const changeLayer = () => {
-		if (activeLayer === 0){
-			setActiveLayer(1)
-			setButtonText('Show Cluster');
-		}
-		else{
-			setActiveLayer(0)
-			setButtonText('Show Heat Map')}
-		;
+		if (activeLayer === 1) return layer2;
+		if (activeLayer === 2) return layer3;
+		if (activeLayer === 3) return layer4;
 	};
 
-
+	const onLayerChange = (activeLayer) => {
+		setActiveLayer(activeLayer)
+	};
 
 	return (
 		<div className='map'>
@@ -191,31 +257,114 @@ export default function Cluster({
 			<div >
 				<MapStylePicker onStyleChange={onStyleChange} currentStyle={style} />
 
-				<button className='showmap' onClick={changeLayer}>
+				<SelectItem
+					className="layer-picker"
+					value={activeLayer}
+					onChange={e => onLayerChange(Number(e.target.value))}
+				>
+					{LAYERS.map(layer => (
+						<option key={layer.value} value={layer.value}>
+							{layer.label}
+						</option>
+					))}
+				</SelectItem>
+
+				{/* <button className='showmap' onClick={changeLayer}>
 					{buttonText}
-				</button>
+				</button> */}
+
+				{/* <p>{({ object }) => object && `Count: ${object.count}`}</p> */}
 
 				<DeckGL
 					layers={getLayers()}
 					views={MAP_VIEW}
 					initialViewState={INITIAL_VIEW_STATE}
-					controller={true}
+					controller={{
+						doubleClickZoom: false
+					}}
 					onViewStateChange={hideTooltip}
 					onClick={expandTooltip}
+
 				>
+					{gridInfo.object && (
+						<div className="tooltip" style={{ left: gridInfo.x, top: gridInfo.y }}>
+							<p>position: {gridInfo.object.position.join(', ')} </p>
+							<p>Count:{gridInfo.object.count}</p>
+						</div>
+					)
+					}
 					<Map reuseMaps mapStyle={style} mapboxAccessToken={mapboxAccessToken} />
 					{renderTooltip(hoverInfo)}
 				</DeckGL>
+				{activeLayer === 3 && (
+					<>
+						<p className='wrapper'> Selected area represents {selected.length} GPS points </p>
+						<div className="wrapper">
 
+							<button className="button"
+								onClick={() => setMode("rectangle")}
+							>
+								<CropDinIcon />
+							</button>
+							<button className="button"
+								onClick={() => setMode("polygon")}
+							>
+								<PolylineIcon />
+							</button>
+							<button className="button"
+								onClick={() => setMode(null)}
+							>
+								<EditIcon />
+							</button>
+						</div>
+					</>
+				)
+				}
+				<p className={activeLayer === 3 ? 'count wrapper' : 'gps_count'}>GPS Count: {filteredData.length} points</p>
+				<Chart data={filteredData} />
 
 			</div>
-
-
 
 
 		</div>
 
 	);
 }
+
+
+const SelectItem = styled.select`
+    height:45px;
+    width: 145px;
+	align-items: center;
+	justify-content: center;
+    background: white;
+    color: black;
+	position: absolute;
+	border-radius: 4px;
+    top: 14px;
+    right: 169px;
+    font-size: 14px;
+    padding: 0 30px 0 10px;
+    margin: 0 5px 5px 0;
+    border: transparent;
+    border-radius: 3px;
+	z-index: 1;
+	-webkit-appearance: none;
+  	-moz-appearance: none;
+  	appearance: none;
+  	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAh0lEQVQ4T93TMQrCUAzG8V9x8QziiYSuXdzFC7h4AcELOPQAdXYovZCHEATlgQV5GFTe1ozJlz/kS1IpjKqw3wQBVyy++JI0y1GTe7DCBbMAckeNIQKk/BanALBB+16LtnDELoMcsM/BESDlz2heDR3WePwKSLo5eoxz3z6NNcFD+vu3ij14Aqz/DxGbKB7CAAAAAElFTkSuQmCC');
+  	background-repeat: no-repeat;
+  	background-position: 112px center;
+	cursor: pointer;
+  option {
+    color: black;
+    background: white;
+    display: flex;
+	border:transparent;
+    white-space: pre;
+    min-height: 20px;
+    padding: 0px 2px 2px;
+  }
+`;
 
 

@@ -10,10 +10,10 @@ import { throttle, debounce } from "lodash";
 
 const PositionContainer = styled('div')({
   position: 'absolute',
-  zIndex: 1,
-  bottom: '40px',
-  width: '45%',
-  left: '27%',
+  zIndex: 101,
+  bottom: '36px',
+  width: '480px',
+  left: '35px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -21,23 +21,23 @@ const PositionContainer = styled('div')({
 });
 
 const SliderInput = styled(Slider)({
-  color: '#d46a6a',
+  color: '#9a6fb0',
   height: 8,
   marginLeft: 12,
   '& .MuiSlider-rail': {
-    color: '#d46a6a'
+    color: '#9a6fb0'
   },
   '& .MuiSlider-mark' : {
     color: '#fff'
   },
   '& .MuiSlider-track': {
-    color: '#d46a6a',
+    color: '#9a6fb0',
     border: 'none',
   },
   '& .MuiSlider-thumb': {
-    height: 18,
-    width: 18,
-    backgroundColor: '#d14343',
+    height: 14,
+    width: 14,
+    backgroundColor: '#9160ab',
     '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
       boxShadow: 'inherit',
     },
@@ -47,12 +47,12 @@ const SliderInput = styled(Slider)({
 
     '& .MuiSlider-valueLabel': {
       lineHeight: 1.2,
-      fontSize: 10,
+      fontSize: 8,
       background: 'unset',
       padding: 0,
-      width: 34,
-      height: 34,
-      backgroundColor: '#d46a6a',
+      width: 30,
+      height: 20,
+      backgroundColor: '#9a6fb0',
     },
   },
 
@@ -61,11 +61,11 @@ const SliderInput = styled(Slider)({
 
 
 const PlayStyle = styled(PlayIcon)({
-  color: '#d14343'
+  color: '#9a6fb0'
 })
 
 const PauseStyle = styled(PauseIcon)({
-  color: '#d14343'
+  color: '#9a6fb0'
 })
 
 export default function RangeInput({ min, max, value, animationSpeed, onChange, formatLabel }) {
@@ -113,7 +113,7 @@ export default function RangeInput({ min, max, value, animationSpeed, onChange, 
         value={value}
         marks={true}
         onChange={debounceChangeHandler}
-        valueLabelDisplay="on"
+        valueLabelDisplay="auto"
         valueLabelFormat={formatLabel}
       />
     </PositionContainer>

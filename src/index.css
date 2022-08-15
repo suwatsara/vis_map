@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
-
 	font-family: 'Inter', sans-serif;
 }
 
 body{
-	padding: 20px;
 	box-sizing: border-box;
 	margin: 0 ;
 }
@@ -26,12 +24,26 @@ body{
 	padding: 8px; 
 	background: #000; 
 	color: #fff; 
-	min-width: 160px; 
-	max-height: 240px; 
+	width: max-content; 
+	height: max-content;
 	overflow-y: hidden;
 }
+
 .tooltip.interactive {
 	pointer-events: all; 
 	background: #fcfcfc; 
 	color: #444; 
-	overflow-y: auto;}
+	overflow-y: auto;
+}
+
+h4{
+	text-align: center;
+	font-size: 13.5px;
+	margin-top: 3px;
+	justify-content: center;
+	
+  }
+
+  .MuiSvgIcon-root{
+	margin-top: 4px;
+  }

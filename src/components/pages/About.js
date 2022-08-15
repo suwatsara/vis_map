@@ -1,16 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
-
-import { processRowObject } from 'kepler.gl/processors';
-// import data from '../../data/gps_rama4_20181119.csv';
+import React, { useState, useRef } from 'react';
 import Papa from "papaparse";
+import LoadingButton from '@mui/lab/LoadingButton';
 import './About.css'
 import Cluster from './Cluster';
-import Heatmap from './Heatmap';
 import ShowTable from './Table';
-
-// import data from '../../data/gps_rama4_20181119.csv'
-
-
+import Chart from './Chart';
+import GeometryEditor from './GeometryEditor';
 
 
 function About() {
@@ -18,6 +13,7 @@ function About() {
 	const [list, setList] = useState([]);
 	const [selected, setSelected] = useState([{ Lng: {}, Lat: {}, TimeStamp: {} }]);
 	const [loading, setLoading] = useState(false);
+	const [buttonloading, setButtonLoading] = useState(false);
 
 	const handleOnChange = (e) => {
 		setFile(e.target.files[0]);
@@ -25,6 +21,7 @@ function About() {
 
 
 	const handleSubmit = (event) => {
+		setButtonLoading(true)
 		event.preventDefault();
 		Papa.parse(file, {
 			header: true,
@@ -61,9 +58,15 @@ function About() {
 				// Set state...
 
 				setList(refinedList);
+				setButtonLoading(false)
 				setLoading(true)
 			},
+
+
 		})
+
+
+
 
 	};
 
@@ -76,8 +79,6 @@ function About() {
 		const lat = list.find((el) => el.name === x.value);
 		const lng = list.find((el) => el.name === y.value);
 		const time = list.find((el) => el.name === z.value);
-		// Set selected x & y...
-
 
 		// convert to number
 		const newLat = lat && lat.values.map((d) => (Number(d)))
@@ -91,7 +92,6 @@ function About() {
 			Lat: newLat,
 			TimeStamp: newTime
 		});
-
 
 	};
 	// select only values
@@ -115,22 +115,35 @@ function About() {
 		<div>
 			<div className='ControlPanel'>
 
-				<form onSubmit={handleSubmit} >
+				<form>
 					<div className='upload'>
-						<label>Upload CSV File</label>
-						<input
-							type="file"
-							name="file"
-							accept=".csv,.xlsx,.xls,.xml"
-							onChange={handleOnChange}
-						/>
-						<button className='Process' type="submit">Process</button>
+						<div className="container">
+						<label>✨ Upload File</label>
+							<div className="fileUploadInput">
+								
+								<input 
+								type="file"
+								name="file"
+								accept=".csv,.xlsx,.xls,.xml"
+								onChange={handleOnChange} />
+								<LoadingButton
+									onClick={handleSubmit}
+									loading={buttonloading}
+									loadingIndicator="Loading…"
+									variant="outlined"
+								>
+									Process
+								</LoadingButton>
+
+							</div>
+						</div>
 
 					</div>
 
 				</form>
 				{loading && (
 					<>
+
 
 						<form className='select-form' onSubmit={handleSelection}>
 							<div className="select">
@@ -182,36 +195,24 @@ function About() {
 								</div>
 
 							</div>
-							<button className='Apply' type="submit">Apply</button>
-
-
+							<button className='Apply' type="submit">APPLY</button>
 
 						</form>
 
-
-
 					</>
 				)}
-
-
-
-
 
 			</div>
 
 			<div className='button-wrapper'>
 
 				<Cluster data={obj} />
+				{/* <GeometryEditor data={obj} />  */}
 
 			</div>
 
-
 			<ShowTable rows={obj} />
-
-
-
-
-
+			
 
 
 		</div>
@@ -222,3 +223,7 @@ function About() {
 
 
 export default About
+
+
+
+

@@ -4,9 +4,7 @@ import ReactDOM from "react-dom";
 import './index.css'
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import About from './components/pages/About';
-import Clsuter from './components/pages/Cluster';
-import Heatmap from './components/pages/Heatmap';
-import Header from './components/Header';
+import GeometryEditor from './components/pages/GeometryEditor'
 
 ReactDOM.render(
   <React.StrictMode>

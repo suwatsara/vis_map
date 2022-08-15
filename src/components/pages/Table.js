@@ -10,11 +10,10 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
 const PositionContainer = styled('div')({
-    position: 'absolute',
-    zIndex: 1,
-    top: '1000px',
-    width: '60%',
-    left: '20%',
+    position: 'relative',
+    width: '700px',
+    top:'680px',
+    left: '24%',
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
@@ -23,9 +22,6 @@ const PositionContainer = styled('div')({
 });
 
 function ShowTable({rows }) {
-
-    console.log(rows)
-
     
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -41,9 +37,11 @@ function ShowTable({rows }) {
     };
 
     return (
-        <PositionContainer>
-            <Paper sx={{ width: '80%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+        <div>
+        
+            <PositionContainer>        
+            <Paper sx={{ width: '100%', overflow: 'hidden'}}>
+                <TableContainer sx={{maxHeight: 500}}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -87,6 +85,10 @@ function ShowTable({rows }) {
 
 
         </PositionContainer>
+
+        </div>
+       
+        
 
     );
 
