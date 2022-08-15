@@ -223,7 +223,7 @@ export default function Cluster({
 		{ label: 'Cluster Layer', value: 0 },
 		{ label: 'Heatmap', value: 1 },
 		{ label: 'Gridlayer', value: 2 },
-		{ label: 'Scattter Plot', value: 3 }
+		{ label: 'Scatterplot Layer', value: 3 }
 	];
 
 
