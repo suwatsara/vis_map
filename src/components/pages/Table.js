@@ -11,13 +11,14 @@ import TablePagination from '@mui/material/TablePagination';
 
 const PositionContainer = styled('div')({
     position: 'absolute',
-    width: '300px',
-    bottom:'34px',
-    right: '20px',
+    width: '500px',
+    top:'750px',
+    left: '35%',
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    fontSize: '11px'
 
 });
 
