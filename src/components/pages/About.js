@@ -14,6 +14,7 @@ function About() {
 	const [selected, setSelected] = useState([{ Lng: {}, Lat: {}, TimeStamp: {} }]);
 	const [loading, setLoading] = useState(false);
 	const [buttonloading, setButtonLoading] = useState(false);
+	const [isOpen, setIsOpen] = useState(false)
 
 	const handleOnChange = (e) => {
 		setFile(e.target.files[0]);
@@ -196,6 +197,7 @@ function About() {
 
 							</div>
 							<button className='Apply' type="submit">APPLY</button>
+							<button className='Apply' onClick={() => setIsOpen(!isOpen)}>Show Data Table</button>
 
 						</form>
 
@@ -210,8 +212,8 @@ function About() {
 				{/* <GeometryEditor data={obj} />  */}
 
 			</div>
-
-			<ShowTable rows={obj} />
+			{isOpen && (<ShowTable rows={obj} />)}
+			
 			
 
 

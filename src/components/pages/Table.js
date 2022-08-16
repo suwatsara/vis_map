@@ -10,10 +10,10 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
 const PositionContainer = styled('div')({
-    position: 'relative',
-    width: '700px',
-    top:'680px',
-    left: '24%',
+    position: 'absolute',
+    width: '300px',
+    bottom:'34px',
+    right: '20px',
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
@@ -25,7 +25,7 @@ function ShowTable({rows }) {
     
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const  minWidth = 100;
+    const  minWidth = 30, maxWidth = 55;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -41,14 +41,14 @@ function ShowTable({rows }) {
         
             <PositionContainer>        
             <Paper sx={{ width: '100%', overflow: 'hidden'}}>
-                <TableContainer sx={{maxHeight: 500}}>
+                <TableContainer sx={{maxHeight: 300}}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead>
                             <TableRow>
 
                                 <TableCell style={{ minWidth}} align="left">Longitude</TableCell>
                                 <TableCell style={{ minWidth}} align="right">Latitude</TableCell>
-                                <TableCell style={{ minWidth}} align="right">TimeStamp</TableCell>
+                                <TableCell style={{ maxWidth}} align="right">TimeStamp</TableCell>
 
 
                             </TableRow>

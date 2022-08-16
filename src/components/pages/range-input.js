@@ -23,7 +23,8 @@ const PositionContainer = styled('div')({
 const SliderInput = styled(Slider)({
   color: '#9a6fb0',
   height: 8,
-  marginLeft: 12,
+  marginTop:5,
+  marginLeft: 10,
   '& .MuiSlider-rail': {
     color: '#9a6fb0'
   },

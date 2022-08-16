@@ -113,7 +113,7 @@ export default function Cluster({
 			return [d.longitude, d.latitude];
 		},
 		getFillColor: [255, 0, 0],
-		getRadius: 1,
+		getRadius: 4,
 		pickable: true
 	});
 
@@ -126,7 +126,7 @@ export default function Cluster({
 		if (info.picked && showCluster) {
 			setHoverInfo(info);
 		} else {
-			setHoverInfo({ info });
+			setHoverInfo({});
 		}
 	};
 
@@ -159,6 +159,7 @@ export default function Cluster({
 				sizeScale: 35,
 				sizeMinPixels: 6,
 
+
 			})
 
 	const layer2 =
@@ -170,6 +171,8 @@ export default function Cluster({
 			intensity: 1,
 			threshold: 0.05,
 			getFilterValue: d => d.timestamp,
+			debounceTimeout:1000,
+			radiusPixels:35,
 
 
 		})
@@ -183,9 +186,7 @@ export default function Cluster({
 		elevationScale: 4,
 		getPosition: d => [d.longitude, d.latitude],
 		getFilterValue: d => d.timestamp,
-		onHover: info => setGridInfo(info),
-		pickable: true,
-
+		// onHover: info => setGridInfo(info),
 	})
 
 	const layer4 = [
@@ -196,7 +197,7 @@ export default function Cluster({
 			radiusMinPixels: 2,
 			getPosition: (d) => [d.longitude, d.latitude],
 			getFillColor: d => [255, 140, 0],
-			getRadius: 1,
+			getRadius: 4,
 			pickable: true,
 		}),
 		selectedLayer,
@@ -223,7 +224,7 @@ export default function Cluster({
 		{ label: 'Cluster Layer', value: 0 },
 		{ label: 'Heatmap', value: 1 },
 		{ label: 'Gridlayer', value: 2 },
-		{ label: 'Scatterplot Layer', value: 3 }
+		{ label: 'Scatterplot', value: 3 }
 	];
 
 
@@ -284,15 +285,16 @@ export default function Cluster({
 					}}
 					onViewStateChange={hideTooltip}
 					onClick={expandTooltip}
+					getTooltip={activeLayer === 2 && (({object}) => object && `${object.position.join(', ')}\nCount: ${object.count}`) }
 
 				>
-					{gridInfo.object && (
+					{/* {gridInfo.object && (
 						<div className="tooltip" style={{ left: gridInfo.x, top: gridInfo.y }}>
 							<p>position: {gridInfo.object.position.join(', ')} </p>
 							<p>Count:{gridInfo.object.count}</p>
 						</div>
 					)
-					}
+					} */}
 					<Map reuseMaps mapStyle={style} mapboxAccessToken={mapboxAccessToken} />
 					{renderTooltip(hoverInfo)}
 				</DeckGL>
@@ -321,6 +323,7 @@ export default function Cluster({
 				)
 				}
 				<p className={activeLayer === 3 ? 'count wrapper' : 'gps_count'}>GPS Count: {filteredData.length} points</p>
+				
 				<Chart data={filteredData} />
 
 			</div>

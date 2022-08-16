@@ -10,11 +10,11 @@ const margin = { top: 10, right: 20, bottom: 30, left: 60 },
 function Chart({ data }) {
 
 
-    const newdata = data.map(row => ({
+    const newdata = useMemo(() => data.map(row => ({
         timestamp: new Date(row.timestamp).getTime(),
         latitude: row.latitude,
         longitude: row.longitude,
-    }));
+    })))
 
 
     const DataTime = newdata.reduce((group, product) => {
@@ -26,15 +26,8 @@ function Chart({ data }) {
     }, {});
 
     const formatMinute = d3.timeFormat("%H:%M"),
-          formatDay = d3.timeFormat("%B %d, %Y" ),
-          formatHour = d3.timeFormat("%I %p");
+          formatDay = d3.timeFormat("%B %d, %Y" );
 
-    // Define filter conditions
-    function multiFormat(date) {
-        return (d3.timeHour(date) < date ? formatMinute : d3.timeDay(date) < date && formatHour)(date);
-    }
-
-    // (d3.timeHour(date) < date ? formatMinute : d3.timeDay(date) < date && formatHour)(date);
 
     const CountHours = Object
         .entries(DataTime)
@@ -69,7 +62,7 @@ function Chart({ data }) {
     useLayoutEffect(() => {
         const svgElement = d3.select(axesRef.current);
         svgElement.selectAll("*").remove();
-        const xAxisGenerator = d3.axisBottom(xScale).tickFormat(multiFormat);
+        const xAxisGenerator = d3.axisBottom(xScale).tickFormat(formatMinute);
         svgElement
             .append("g")
             .attr("transform", "translate(0," + boundsHeight + ")")
