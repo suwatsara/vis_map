@@ -10,9 +10,9 @@ import file from '../../data/location-icon-mapping.json'
 import IconClusterLayer from './IconClusterLayer';
 import { MapStylePicker } from '../controls';
 import './About.css'
+import Chart from './Chart';
 import styled from 'styled-components';
 import RangeInput from './range-input';
-import Chart from './Chart';
 import { mapboxAccessToken, INITIAL_VIEW_STATE, MAP_STYLE } from './utils';
 import CropDinIcon from '@mui/icons-material/CropDin';
 import PolylineIcon from '@mui/icons-material/Polyline';
@@ -309,8 +309,8 @@ export default function Cluster({
 				)
 				}
 				<p className={activeLayer === 3 ? 'count wrapper' : 'gps_count'}>GPS Count: {filteredData.length} points</p>
-				
 				<Chart data={data} />
+
 
 			</div>
 

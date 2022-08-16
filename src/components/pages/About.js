@@ -212,6 +212,7 @@ function About() {
 				{/* <GeometryEditor data={obj} />  */}
 
 			</div>
+
 			{isOpen && (<ShowTable rows={obj} />)}
 			
 			

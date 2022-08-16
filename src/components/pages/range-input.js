@@ -12,7 +12,7 @@ const PositionContainer = styled('div')({
   position: 'absolute',
   zIndex: 101,
   bottom: '36px',
-  width: '400px',
+  width: '500px',
   left: '24px',
   display: 'flex',
   justifyContent: 'center',
