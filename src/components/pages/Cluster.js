@@ -244,7 +244,6 @@ export default function Cluster({
 	return (
 		<div className='map'>
 
-			{timeRange && (
 				<RangeInput
 					min={timeRange[0]}
 					max={timeRange[1]}
@@ -253,7 +252,6 @@ export default function Cluster({
 					formatLabel={formatLabel}
 					onChange={setFilter}
 				/>
-			)}
 
 			<div >
 				<MapStylePicker onStyleChange={onStyleChange} currentStyle={style} />
@@ -270,12 +268,6 @@ export default function Cluster({
 					))}
 				</SelectItem>
 
-				{/* <button className='showmap' onClick={changeLayer}>
-					{buttonText}
-				</button> */}
-
-				{/* <p>{({ object }) => object && `Count: ${object.count}`}</p> */}
-
 				<DeckGL
 					layers={getLayers()}
 					views={MAP_VIEW}
@@ -288,13 +280,7 @@ export default function Cluster({
 					getTooltip={activeLayer === 2 && (({object}) => object && `${object.position.join(', ')}\nCount: ${object.count}`) }
 
 				>
-					{/* {gridInfo.object && (
-						<div className="tooltip" style={{ left: gridInfo.x, top: gridInfo.y }}>
-							<p>position: {gridInfo.object.position.join(', ')} </p>
-							<p>Count:{gridInfo.object.count}</p>
-						</div>
-					)
-					} */}
+
 					<Map reuseMaps mapStyle={style} mapboxAccessToken={mapboxAccessToken} />
 					{renderTooltip(hoverInfo)}
 				</DeckGL>
