@@ -143,7 +143,6 @@ button.Apply {
     background-color: #ffffff;
     color: #1976d2;
     border: 1px solid rgba(25, 118, 210, 0.5);
-    -webkit-tap-highlight-color: transparent;
     background-color: transparent;
     font-weight: 500;
     font-size: 0.875rem;

@@ -2,9 +2,9 @@ import React, { useState, useLayoutEffect, useRef, useMemo } from 'react'
 import * as d3 from "d3";
 import './Chart.css'
 
-const margin = { top: 10, right: 20, bottom: 30, left: 60 },
-    width = 500,
-    height = 175;
+const margin = { top: 5, right: 5, bottom: 30, left: 60 },
+    width = 400,
+    height = 110;
 
 
 function Chart({ data }) {
@@ -25,7 +25,7 @@ function Chart({ data }) {
         return group;
     }, {});
 
-    const formatMinute = d3.timeFormat("%H:%M"),
+    const formatMinute = d3.timeFormat("%I %p"),
           formatDay = d3.timeFormat("%B %d, %Y" );
 
 
@@ -94,7 +94,7 @@ function Chart({ data }) {
 
         <div className='charts'>
             <h4>Date: {formatDay(CountHours[0].hour)}</h4>
-            <svg width={500} height={175}>
+            <svg width={400} height={130}>
                 <g
                     width={boundsWidth}
                     height={boundsHeight}

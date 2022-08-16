@@ -310,7 +310,7 @@ export default function Cluster({
 				}
 				<p className={activeLayer === 3 ? 'count wrapper' : 'gps_count'}>GPS Count: {filteredData.length} points</p>
 				
-				<Chart data={filteredData} />
+				<Chart data={data} />
 
 			</div>
 
