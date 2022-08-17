@@ -7,7 +7,7 @@ function Panel({ data, selected, activeLayer}) {
   return (
     <div className={activeLayer === 3 ? "PanelContainer-top" : "PanelContainer"}>
       <div className="Title">
-        {data[0] && <div>{formatDate(data[0].timestamp)} - {formatDate(data[data.length -1].timestamp)} </div>}
+        {data[0] && <div>{formatDate(data[0].timestamp)}</div>}
         <div className="PanelExpander">i</div>
         {/* <div className='PanelExpander'>✕</div> */}
       </div>
