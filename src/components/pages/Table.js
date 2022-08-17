@@ -12,8 +12,7 @@ import TablePagination from '@mui/material/TablePagination';
 const PositionContainer = styled('div')({
     position: 'absolute',
     width: '500px',
-    top:'750px',
-    left: '35%',
+    top:'100px',
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',

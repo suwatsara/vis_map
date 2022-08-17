@@ -18,10 +18,7 @@ import CropDinIcon from "@mui/icons-material/CropDin";
 import PolylineIcon from "@mui/icons-material/Polyline";
 import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
-import BubbleChartSharpIcon from "@mui/icons-material/BubbleChartSharp";
-import LeaderboardSharpIcon from "@mui/icons-material/LeaderboardSharp";
-import ScatterPlotSharpIcon from "@mui/icons-material/ScatterPlotSharp";
-import LensBlurSharpIcon from "@mui/icons-material/LensBlurSharp";
+
 
 
 const MAP_VIEW = new MapView({ repeat: true });
@@ -208,10 +205,10 @@ export default function Cluster({
   ];
 
   const LAYERS = [
-    { label: "Cluster Layer", value: 0 },
-    { label: "Heatmap", value: 1 },
-    { label: "Gridlayer", value: 2 },
-    { label: "Scatterplot", value: 3 },
+    { label: "Cluster", value: 0},
+    { label: "Heatmap", value: 1},
+    { label: "Density Area", value: 2},
+    { label: "Point Detection", value: 3 },
   ];
 
   const [activeLayer, setActiveLayer] = useState(0);
@@ -248,32 +245,10 @@ export default function Cluster({
         >
           {LAYERS.map((layer) => (
             <option key={layer.value} value={layer.value}>
-              {layer.icon}
               {layer.label}
             </option>
           ))}
         </SelectItem>
-        {/* <PositionContainer>
-          <FormControl>
-            <SelectItem
-              value={activeLayer}
-              onChange={(e) => onLayerChange(Number(e.target.value))}
-            >
-              <MenuItem value="0">
-                <BubbleChartSharpIcon /> Clsuter
-              </MenuItem>
-              <MenuItem value={1}>
-                <LensBlurSharpIcon /> Heatmap
-              </MenuItem>
-              <MenuItem value={2}>
-                <LeaderboardSharpIcon /> GridLayer
-              </MenuItem>
-              <MenuItem value={3}>
-                <ScatterPlotSharpIcon /> Scatterplot
-              </MenuItem>
-            </SelectItem>
-          </FormControl>
-        </PositionContainer> */}
 
         <DeckGL
           layers={getLayers()}
@@ -287,7 +262,7 @@ export default function Cluster({
           getTooltip={
             activeLayer === 2 &&
             (({ object }) =>
-              object && `${object.position.join(", ")}\nCount: ${object.count}`)
+              object && `${object.position.join(", ")}\nGPS Count: ${object.count}`)
           }
         >
           <Map

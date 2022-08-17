@@ -9,8 +9,8 @@
     position: absolute;
     left: 20px;
     bottom: 35px;
-    width: 500px;
-    z-index: 100;
+    width: 550px;
+    z-index: 1;
   };
 
 

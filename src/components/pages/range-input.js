@@ -10,9 +10,9 @@ import { throttle, debounce } from "lodash";
 
 const PositionContainer = styled('div')({
   position: 'absolute',
-  zIndex: 101,
+  zIndex: 2,
   bottom: '36px',
-  width: '500px',
+  width: '550px',
   left: '24px',
   display: 'flex',
   justifyContent: 'center',

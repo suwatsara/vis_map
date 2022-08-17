@@ -2,14 +2,31 @@ import React, { useState, useLayoutEffect, useRef, useMemo } from "react";
 import * as d3 from "d3";
 import "./Chart.css";
 
-const formatMinute = d3.timeFormat("%H");
+const formatMillisecond = d3.timeFormat(".%L"),
+    formatSecond = d3.timeFormat(":%S"),
+    formatMinute = d3.timeFormat("%I:%M"),
+    formatHour = d3.timeFormat("%a %I %p"),
+    formatDay = d3.timeFormat("%a"),
+    formatWeek = d3.timeFormat("%b %d"),
+    formatMonth = d3.timeFormat("%B"),
+    formatYear = d3.timeFormat("%Y");
 
-function AxisBottom({ scale, transform }) {
+    function multiFormat(date) {
+      return (d3.timeSecond(date) < date ? formatMillisecond
+          : d3.timeMinute(date) < date ? formatSecond
+          : d3.timeHour(date) < date ? formatMinute
+          : d3.timeDay(date) < date ? formatHour
+          : d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? formatDay : formatWeek)
+          : d3.timeYear(date) < date ? formatMonth
+          : formatYear)(date);
+    }
+
+function AxisBottom({ scale,transform, ticks}) {
   const ref = useRef(null);
   useLayoutEffect(() => {
     if (ref.current) {
       d3.select(ref.current).call(
-        d3.axisBottom(scale).tickFormat(formatMinute)
+        d3.axisBottom(scale).tickFormat(multiFormat).tickValues(ticks)
       );
     }
   }, [scale]);
@@ -22,12 +39,14 @@ function AxisLeft({ scale }) {
 
   useLayoutEffect(() => {
     if (ref.current) {
-      d3.select(ref.current).call(d3.axisLeft(scale));
+      d3.select(ref.current).call(d3.axisLeft(scale).ticks(5).tickFormat(d3.format(".2s")));
     }
   }, [scale]);
 
   return <g ref={ref} />;
 }
+
+
 
 function Bars({ data, height, scaleX, scaleY }) {
   return (
@@ -62,31 +81,34 @@ function Chart({ data }) {
   }, {});
 
   const CountHours = Object.entries(DataTime).map(([groupname, value]) => ({
-    hour: +groupname * 1000 * 60 * 60,
+    hour: (+groupname) * (1000 * 60 * 60),
     count: value.length,
   }));
 
-  const formatDay = d3.timeFormat("%B %d, %Y");
+
+  const formatDate = d3.timeFormat("%B %d, %Y");
 
   const margin = { top: 10, right: 5, bottom: 25, left: 60 },
-    width = 500 - margin.right - margin.left,
+    width =550 - margin.right - margin.left,
     height = 110 - margin.top - margin.bottom;
 
   const xScale = d3
     .scaleBand()
     .domain(CountHours.map(({ hour }) => hour))
-    .range([0, width])
+    .rangeRound([0, width])
     .padding(0.3);
   const yScale = d3
     .scaleLinear()
-    .domain([0, Math.max(...CountHours.map(({ count }) => count))])
+    .domain([(Math.min(...CountHours.map(({count}) => count))-2000), Math.max(...CountHours.map(({ count }) => count))])
     .range([height, 0]);
+
+    const ticks = xScale.domain().filter((e,i)=>i%10==0);
 
   return (
     <>
       {CountHours[0] && (
         <div className="charts">
-          {CountHours[0] && (<h4>Date: {formatDay(CountHours[0].hour)}</h4>)}
+          {CountHours[0] && (<h4>Date: {formatDate(CountHours[0].hour)} - {formatDate(CountHours[CountHours.length - 1].hour)}</h4>)}
           <svg
             width={width + margin.left + margin.right}
             height={height + margin.top + margin.bottom}
@@ -94,6 +116,7 @@ function Chart({ data }) {
             <g transform={`translate(${margin.left}, ${margin.top})`}>
               <AxisBottom
                 scale={xScale}
+                ticks={ticks}
                 transform={`translate(0, ${height})`}
               />
               <AxisLeft scale={yScale} />

@@ -1,7 +1,7 @@
 .map {
     position: absolute;
     width: 100%;
-    height: 700px;
+    height: 100%;
 
 }
 
@@ -152,6 +152,35 @@ button.Apply {
     padding: 5px 15px;
     border-radius: 4px;
 }
+h3{
+    font-size: 0.875rem;
+    color: #1976d2;
+    font-weight: 500;
+}
+.Modal {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    height: 32px;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #1976d2;
+    border: 1px solid rgba(25, 118, 210, 0.5);
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    width:max-content;
+    padding: 5px 15px;
+    border-radius: 4px;
+}
+h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 button.Process {
     width: 116px;
