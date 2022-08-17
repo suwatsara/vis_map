@@ -1,0 +1,86 @@
+.PanelContainer{
+    font: 10px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 330px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+    margin: 10px;
+    padding: 10px 24px;
+    max-height: 85%;
+    overflow: hidden overlay;
+    outline: none;
+    z-index: 1; 
+}
+.PanelContainer-top{
+    font: 10px;
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    width: 330px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+    margin: 10px;
+    padding: 10px 24px;
+    max-height: 85%;
+    overflow: hidden overlay;
+    outline: none;
+    z-index: 1; 
+}
+.Title{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    font: bold 14px;
+    margin: 8px 0px; 
+}
+.PanelExpander{
+    width: 16px;
+    height: 16px;
+    font-size: 0.8em;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 50%;
+    background: rgb(43, 56, 72);
+    color: rgb(255, 255, 255);
+}
+.none {
+    display: none;
+}
+
+/* .hyMyJE {
+    display: none;
+    width: 16px;
+    height: 16px;
+    font-family: serif;
+    font-size: 0.8em;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 50%;
+    background: none;
+    color: rgb(25, 32, 44);
+} */
+.PanelContent{
+    display: block;
+}
+.PanelContent p{
+    margin-bottom: 10px;
+}
+.PanelContent .stat{
+    text-transform: uppercase;
+    font-size: 0.833em;
+}
+
+.PanelContent .stat b{
+    display: block;
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 1.833;
+}
+.selected {
+    font-size: 14px;
+    text-transform: capitalize;
+}

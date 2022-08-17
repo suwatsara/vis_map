@@ -85,9 +85,6 @@ function Chart({ data }) {
     count: value.length,
   }));
 
-
-  const formatDate = d3.timeFormat("%B %d, %Y");
-
   const margin = { top: 10, right: 5, bottom: 25, left: 60 },
     width =550 - margin.right - margin.left,
     height = 110 - margin.top - margin.bottom;
@@ -108,7 +105,6 @@ function Chart({ data }) {
     <>
       {CountHours[0] && (
         <div className="charts">
-          {CountHours[0] && (<h4>Date: {formatDate(CountHours[0].hour)} - {formatDate(CountHours[CountHours.length - 1].hour)}</h4>)}
           <svg
             width={width + margin.left + margin.right}
             height={height + margin.top + margin.bottom}

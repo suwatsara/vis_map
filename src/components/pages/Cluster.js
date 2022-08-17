@@ -18,6 +18,7 @@ import CropDinIcon from "@mui/icons-material/CropDin";
 import PolylineIcon from "@mui/icons-material/Polyline";
 import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
+import Panel from "./Panel";
 
 
 
@@ -274,10 +275,6 @@ export default function Cluster({
         </DeckGL>
         {activeLayer === 3 && (
           <>
-            <p className="wrapper">
-              {" "}
-              Selected area represents {selected.length} GPS points{" "}
-            </p>
             <div className="wrapper">
               <button className="button" onClick={() => setMode("rectangle")}>
                 <CropDinIcon />
@@ -291,9 +288,8 @@ export default function Cluster({
             </div>
           </>
         )}
-        <p className={activeLayer === 3 ? "count wrapper" : "gps_count"}>
-          GPS Count: {filteredData.length} points
-        </p>
+
+        <Panel data={filteredData} selected={selected} activeLayer={activeLayer}/>
         <Chart data={data} />
       </div>
     </div>
