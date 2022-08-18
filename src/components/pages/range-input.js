@@ -11,7 +11,7 @@ import { throttle, debounce } from "lodash";
 const PositionContainer = styled('div')({
   position: 'absolute',
   zIndex: 1,
-  bottom: '16px',
+  bottom: '14px',
   width: '550px',
   left: '24px',
   display: 'flex',
@@ -22,7 +22,7 @@ const PositionContainer = styled('div')({
 
 const SliderInput = styled(Slider)({
   color: '#9a6fb0',
-  height: 8,
+  height: 6,
   marginTop:5,
   marginLeft: 10,
   '& .MuiSlider-rail': {
@@ -36,8 +36,8 @@ const SliderInput = styled(Slider)({
     border: 'none',
   },
   '& .MuiSlider-thumb': {
-    height: 14,
-    width: 14,
+    height: 10,
+    width: 10,
     backgroundColor: '#9160ab',
     '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
       boxShadow: 'inherit',

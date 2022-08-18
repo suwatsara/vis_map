@@ -220,7 +220,7 @@ export function LayerControls() {
 
 const SelectItem = styled.select`
     height:45px;
-    width: 140px;
+    width: 105px;
 	align-items: center;
 	justify-content: center;
     background: white;
@@ -240,7 +240,7 @@ const SelectItem = styled.select`
   	appearance: none;
   	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAh0lEQVQ4T93TMQrCUAzG8V9x8QziiYSuXdzFC7h4AcELOPQAdXYovZCHEATlgQV5GFTe1ozJlz/kS1IpjKqw3wQBVyy++JI0y1GTe7DCBbMAckeNIQKk/BanALBB+16LtnDELoMcsM/BESDlz2heDR3WePwKSLo5eoxz3z6NNcFD+vu3ij14Aqz/DxGbKB7CAAAAAElFTkSuQmCC');
   	background-repeat: no-repeat;
-  	background-position: 112px center;
+  	background-position: 75px center;
 	cursor: pointer;
   option {
     color: black;

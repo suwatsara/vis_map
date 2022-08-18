@@ -39,7 +39,7 @@ function AxisLeft({ scale }) {
 
   useLayoutEffect(() => {
     if (ref.current) {
-      d3.select(ref.current).call(d3.axisLeft(scale).ticks(5).tickFormat(d3.format(".2s")));
+      d3.select(ref.current).call(d3.axisLeft(scale).ticks(4).tickFormat(d3.format(".2s")));
     }
   }, [scale]);
 
@@ -87,7 +87,7 @@ function Chart({ data }) {
 
   const margin = { top: 10, right: 5, bottom: 25, left: 60 },
     width =550 - margin.right - margin.left,
-    height = 110 - margin.top - margin.bottom;
+    height = 90 - margin.top - margin.bottom;
 
   const xScale = d3
     .scaleBand()

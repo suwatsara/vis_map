@@ -3,20 +3,6 @@ import { IconLayer } from '@deck.gl/layers';
 import Supercluster from 'supercluster';
 
 
-// function getIconName(size) {
-//   if (size === 0) {
-//     return '';
-//   }
-//   if (size < 10) {
-//     return `marker-${size}`;
-//   }
-//   if (size < 100) {
-//     return `marker-${Math.floor(size / 10)}0`;
-//   }
-//   return 'marker-100';
-// }
-
-
 function getIconSize(size) {
   return Math.min(100000, size) / 100000 + 1;
 }
@@ -37,9 +23,6 @@ function createSVGIcon(size) {
     <g>
       <ellipse fill="#c7e9b4" stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/>
       </g>
-       
-
-    </g>
  </svg>`;
   }
 
@@ -50,10 +33,21 @@ function createSVGIcon(size) {
     </g>
  </svg>`;
   }
+
+  if (size < 10000) {
+    return `<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" >
+    <g>
+      <ellipse fill="#41b6c4" stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/>
+    </g>
+ </svg>`;
+  }
+
+
+
   if (size < 50000) {
     return `<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" >
     <g>
-      <ellipse fill="#41b6c4 stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/>       
+      <ellipse fill="#1d91c0" stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/>       
     </g>
  </svg>`;
 
@@ -61,14 +55,14 @@ function createSVGIcon(size) {
   if (size < 100000) {
     return `<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" >
     <g>
-      <ellipse fill="#2c7fb8" stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/>            
+      <ellipse fill="#225ea8" stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/>            
     </g>
  </svg>`;
 
   }
   return `<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" >
   <g>
-    <ellipse fill="#253494" stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/> 
+    <ellipse fill="#0c2c84" stroke-width="0" cx="150" cy="150" id="svg_4" rx="130.54834" ry="130.54834"/> 
   </g>
  </svg>`;
 

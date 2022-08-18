@@ -19,6 +19,8 @@ import PolylineIcon from "@mui/icons-material/Polyline";
 import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
 import Panel from "./Panel";
+import Select from 'react-select';
+import ButtonLayer from "./ButtonLayer";
 
 
 
@@ -37,17 +39,17 @@ function renderTooltip(info) {
     </div>
   ) : (
     <div className="tooltip" style={{ left: x, top: y }}>
-      {object.latitude} {object.longitude}
+      {object.longitude} {object.latitude}
     </div>
   );
 }
 
 export const colorRange = [
-  [254, 240, 217],
-  [253, 204, 138],
-  [252, 141, 89],
-  [227, 74, 51],
-  [179, 0, 0],
+  [254,229,217],
+  [252,174,145],
+  [251,106,74],
+  [222,45,38],
+  [165,15,21]
 ];
 
 function getTimeRange(data) {
@@ -95,7 +97,6 @@ export default function Cluster({
     (d) => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]
   );
   const [hoverInfo, setHoverInfo] = useState({}); //hover info clsuter map
-  const [gridInfo, setGridInfo] = useState({}); // hover info gridlayer
   const [selected, setSelected] = useState([]);
   const [mode, setMode] = useState(null);
   const radius = 5;
@@ -143,13 +144,13 @@ export default function Cluster({
   const layer1 = showCluster
     ? new IconClusterLayer({ ...layerProps, id: "icon-cluster", sizeScale: 40 })
     : new IconLayer({
-        ...layerProps,
-        id: "icon",
-        getIcon: (d) => "marker",
-        sizeUnits: "meters",
-        sizeScale: 35,
-        sizeMinPixels: 6,
-      });
+      ...layerProps,
+      id: "icon",
+      getIcon: (d) => "marker",
+      sizeUnits: "meters",
+      sizeScale: 35,
+      sizeMinPixels: 6,
+    });
 
   const layer2 = new HeatmapLayer({
     id: "heatmp-layer",
@@ -205,13 +206,6 @@ export default function Cluster({
     }),
   ];
 
-  const LAYERS = [
-    { label: "Cluster", value: 0},
-    { label: "Heatmap", value: 1},
-    { label: "Density Area", value: 2},
-    { label: "Point Detection", value: 3 },
-  ];
-
   const [activeLayer, setActiveLayer] = useState(0);
 
   const getLayers = () => {
@@ -220,11 +214,6 @@ export default function Cluster({
     if (activeLayer === 2) return layer3;
     if (activeLayer === 3) return layer4;
   };
-
-  const onLayerChange = (activeLayer) => {
-    setActiveLayer(activeLayer);
-  };
-
   return (
     <div className="map">
       <RangeInput
@@ -238,19 +227,7 @@ export default function Cluster({
 
       <div>
         <MapStylePicker onStyleChange={onStyleChange} currentStyle={style} />
-
-        <SelectItem
-          className="layer-picker"
-          value={activeLayer}
-          onChange={(e) => onLayerChange(Number(e.target.value))}
-        >
-          {LAYERS.map((layer) => (
-            <option key={layer.value} value={layer.value}>
-              {layer.label}
-            </option>
-          ))}
-        </SelectItem>
-
+        <ButtonLayer activeLayer={activeLayer} setActiveLayer={setActiveLayer} />
         <DeckGL
           layers={getLayers()}
           views={MAP_VIEW}
@@ -289,43 +266,11 @@ export default function Cluster({
           </>
         )}
 
-        <Panel data={filteredData} selected={selected} activeLayer={activeLayer}/>
+        <Panel data={filteredData} selected={selected} activeLayer={activeLayer} />
+
         <Chart data={data} />
       </div>
     </div>
   );
 }
-const SelectItem = styled.select`
-    height:45px;
-    width: 145px;
-	align-items: center;
-	justify-content: center;
-    background: white;
-    color: black;
-	position: absolute;
-	border-radius: 4px;
-    top: 14px;
-    right: 169px;
-    font-size: 14px;
-    padding: 0 30px 0 10px;
-    margin: 0 5px 5px 0;
-    border: transparent;
-    border-radius: 3px;
-	z-index: 1;
-	-webkit-appearance: none;
-  	-moz-appearance: none;
-  	appearance: none;
-  	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAh0lEQVQ4T93TMQrCUAzG8V9x8QziiYSuXdzFC7h4AcELOPQAdXYovZCHEATlgQV5GFTe1ozJlz/kS1IpjKqw3wQBVyy++JI0y1GTe7DCBbMAckeNIQKk/BanALBB+16LtnDELoMcsM/BESDlz2heDR3WePwKSLo5eoxz3z6NNcFD+vu3ij14Aqz/DxGbKB7CAAAAAElFTkSuQmCC');
-  	background-repeat: no-repeat;
-  	background-position: 112px center;
-	cursor: pointer;
-  option {
-    color: black;
-    background: white;
-    display: flex;
-	border:transparent;
-    white-space: pre;
-    min-height: 20px;
-    padding: 0px 2px 2px;
-  }
-`;
+

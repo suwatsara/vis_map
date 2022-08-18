@@ -16,8 +16,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "500px",
+    width: "700px",
     height: "500px",
+    zIndex: 5,
   },
 };
 
@@ -33,7 +34,14 @@ function About() {
   const [buttonloading, setButtonLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(true);
-  const [select, setSelect] = useState("");
+  const [isShow, setIsShow] = useState(true);
+
+
+  const handleOnClick = () => {
+    setIsShow(!isShow)
+  }
+
+
   let subtitle;
   function openModal() {
     setIsOpen(true);
@@ -51,6 +59,7 @@ function About() {
   const handleOnChange = (e) => {
     setFile(e.target.files[0]);
   };
+
 
   const handleSubmit = (event) => {
     setButtonLoading(true);
@@ -92,6 +101,7 @@ function About() {
         setList(refinedList);
         setButtonLoading(false);
         setLoading(true);
+        setIsShow(true)
       },
     });
   };
@@ -138,14 +148,30 @@ function About() {
 
   return (
     <div>
+       <Modal
+        isOpen={isOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+      >
+        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Data</h2>
+        <button className="Modal" onClick={closeModal}>
+          close
+        </button>
+        <ShowTable rows={obj} />
+      </Modal>
+
       <div className="ControlPanel">
+        {loading && (<button onClick={handleOnClick} className="expander">✕</button>)}
         <form>
           <div className="upload">
             <div className="container">
               {isUpload && (
                 <>
-                  <label>✨ Upload File</label>
+
                   <div className="fileUploadInput">
+                    <label>✨ Upload File</label>
+                    <br />
                     <input
                       type="file"
                       name="file"
@@ -188,74 +214,68 @@ function About() {
             </div>
           </div>
         </form>
-        {loading && (
-          <>
-            <form className="select-form" onSubmit={handleSelection}>
-              <div className="select">
-                <label htmlFor="latitude">Latitude</label>
-                <div className="custom-select">
-                  <select id="latitude" name="x">
-                    {list &&
-                      list.map((option) => (
-                        <option key={option.name} value={option.name}>
-                          {option.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
 
-              <div className="select">
-                <label htmlFor="longitude">Longitude</label>
-                <div className="custom-select">
-                  <select id="longitude" name="y">
-                    {list &&
-                      list.map((option) => (
-                        <option key={option.name} value={option.name}>
-                          {option.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-              <div className="select">
-                <label htmlFor="Time Filter">Time</label>
-                <div className="custom-select">
-                  <select name="z" id="Time Filter">
-                    {list &&
-                      list.map((option) => (
-                        <option key={option.name} value={option.name}>
-                          {option.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-              <button className="Apply" type="submit">
-                APPLY
-              </button>
-              <button className="Apply" onClick={openModal}>
-                Show Data Table
-              </button>
-            </form>
+        {isShow && (
+          <>
+            {loading && (
+              <>
+                <form className="select-form" onSubmit={handleSelection}>
+                  <div className="select">
+                    <label htmlFor="latitude">Latitude</label>
+                    <div className="custom-select">
+                      <select id="latitude" name="x">
+                        {list &&
+                          list.map((option) => (
+                            <option key={option.name} value={option.name}>
+                              {option.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="select">
+                    <label htmlFor="longitude">Longitude</label>
+                    <div className="custom-select">
+                      <select id="longitude" name="y">
+                        {list &&
+                          list.map((option) => (
+                            <option key={option.name} value={option.name}>
+                              {option.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="select">
+                    <label htmlFor="Time Filter">Time</label>
+                    <div className="custom-select">
+                      <select name="z" id="Time Filter">
+                        {list &&
+                          list.map((option) => (
+                            <option key={option.name} value={option.name}>
+                              {option.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+                  <button className="Apply" type="submit">
+                    APPLY
+                  </button>
+
+                </form>
+              </>
+            )}
           </>
         )}
+        <button className="ShowData" onClick={openModal}>
+          Show Data Table
+        </button>
+
       </div>
 
-      <Modal
-        isOpen={isOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Data</h2>
-        <button className="Modal" onClick={closeModal}>
-          close
-        </button>
-        <ShowTable rows={obj} />
-      </Modal>
-
+     
       <div className="button-wrapper">
         <Cluster data={obj} />
         {/* <GeometryEditor data={obj} />  */}

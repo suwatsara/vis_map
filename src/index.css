@@ -5,14 +5,14 @@
 	font-family: 'Inter', sans-serif;
 }
 
-body{
+body {
 
 	box-sizing: border-box;
 	height: 100%;
-	margin: 0 ;
+	margin: 0;
 }
 
-.App{
+.App {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -20,28 +20,69 @@ body{
 }
 
 .tooltip {
-	pointer-events: none; 
-	position: absolute; 
-	z-index: 9; 
-	font-size: 12px; 
-	padding: 8px; 
-	background: #000; 
-	color: #fff; 
-	width: max-content; 
+	pointer-events: none;
+	position: absolute;
+	z-index: 9;
+	font-size: 12px;
+	padding: 8px;
+	background: #000;
+	color: #fff;
+	width: max-content;
 	height: max-content;
 	overflow-y: hidden;
 }
 
 .tooltip.interactive {
-	pointer-events: all; 
-	background: #fcfcfc; 
-	color: #444; 
+	pointer-events: all;
+	background: #fcfcfc;
+	color: #444;
 	overflow-y: auto;
 }
 
 
-  .MuiSvgIcon-root{
-	margin-top: 6px;
+.MuiSvgIcon-root {
 	justify-content: center;
 	align-items: center;
-  }
+}
+
+.react-select-container {
+	border-color: white;
+	width: 155px;
+	height: 35px;
+}
+
+button.layer {
+
+	height: 45px;
+	width: 45px;
+	padding: 2px;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+	border: none;
+	cursor: pointer;
+}
+.active{
+
+	height: 45px;
+	width: 45px;
+	padding: 2px;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	cursor: pointer;
+	background-color: rgba(25, 118, 210, 0.5);
+}
+.icon{
+	width: max-content;
+	position: absolute;
+	top: 14px;
+	align-items: center;
+	justify-content: center;
+	right: 139px;
+	z-index: 1;
+	background-color: white;
+	border-radius: 3px;
+	height: 45px;
+
+}

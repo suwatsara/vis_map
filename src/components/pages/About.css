@@ -138,7 +138,22 @@ select {
 button.Apply {
     height: 32px;
     margin-top: 15px;
-    margin-right: 6px;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #1976d2;
+    border: 1px solid rgba(25, 118, 210, 0.5);
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    width:max-content;
+    padding: 5px 15px;
+    border-radius: 4px;
+}
+button.ShowData {
+    height: 32px;
+    margin-top: 10px;
     cursor: pointer;
     background-color: #ffffff;
     color: #1976d2;
@@ -179,6 +194,7 @@ h2{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 5px;
 }
 
 
@@ -209,4 +225,22 @@ button.showmap {
     z-index: 1;
     cursor: pointer;
     border-radius: 4px;
+}
+.expander{
+    width: 10px;
+    height: 10px;
+    margin-top: -3px;
+    text-align: center;
+    position: absolute;
+    right: 20px;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+.show {
+    display: none;
 }
