@@ -7,8 +7,18 @@ import ShowTable from "./Table";
 import Chart from "./Chart";
 import Modal from "react-modal";
 import GeometryEditor from "./GeometryEditor";
+import { isString } from "lodash";
 
 const customStyles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(255, 255, 255, 0.75)",
+    zIndex: 2,
+  },
   content: {
     top: "50%",
     left: "50%",
@@ -18,7 +28,6 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     width: "700px",
     height: "500px",
-    zIndex: 5,
   },
 };
 
@@ -35,12 +44,11 @@ function About() {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(true);
   const [isShow, setIsShow] = useState(true);
-
+  const [isShowData, setIsShowData] = useState(false);
 
   const handleOnClick = () => {
-    setIsShow(!isShow)
-  }
-
+    setIsShow(!isShow);
+  };
 
   let subtitle;
   function openModal() {
@@ -59,7 +67,6 @@ function About() {
   const handleOnChange = (e) => {
     setFile(e.target.files[0]);
   };
-
 
   const handleSubmit = (event) => {
     setButtonLoading(true);
@@ -101,19 +108,21 @@ function About() {
         setList(refinedList);
         setButtonLoading(false);
         setLoading(true);
-        setIsShow(true)
+        setIsShow(true);
       },
     });
+
   };
 
   const handleSelection = (event) => {
     event.preventDefault();
     const { x, y, z } = event.target.elements;
-    // Find selected item...
+
     const lat = list.find((el) => el.name === x.value);
     const lng = list.find((el) => el.name === y.value);
     const time = list.find((el) => el.name === z.value);
 
+    
     // convert to number
     const newLat = lat && lat.values.map((d) => Number(d));
     const newLng = lng && lng.values.map((d) => Number(d));
@@ -125,7 +134,9 @@ function About() {
       Lat: newLat,
       TimeStamp: newTime,
     });
+
     setIsUpload(false);
+    setIsShowData(true);
   };
   // select only values
   const values = Object.values(selected);
@@ -146,29 +157,20 @@ function About() {
     timestamp,
   }));
 
+
   return (
     <div>
-       <Modal
-        isOpen={isOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-      >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Data</h2>
-        <button className="Modal" onClick={closeModal}>
-          close
-        </button>
-        <ShowTable rows={obj} />
-      </Modal>
-
       <div className="ControlPanel">
-        {loading && (<button onClick={handleOnClick} className="expander">✕</button>)}
+        {loading && (
+          <button onClick={handleOnClick} className="expander">
+            ✕
+          </button>
+        )}
         <form>
           <div className="upload">
             <div className="container">
               {isUpload && (
                 <>
-
                   <div className="fileUploadInput">
                     <label>✨ Upload File</label>
                     <br />
@@ -260,22 +262,37 @@ function About() {
                       </select>
                     </div>
                   </div>
-                  <button className="Apply" type="submit">
+                  <button className="Apply" title="Submit" type="submit">
                     APPLY
                   </button>
-
+                  {isShowData && (
+                    <button
+                      className="ShowData"
+                      title="Show Data"
+                      onClick={openModal}
+                    >
+                      Show Data Table
+                    </button>
+                  )}
                 </form>
               </>
             )}
           </>
         )}
-        <button className="ShowData" onClick={openModal}>
-          Show Data Table
-        </button>
-
       </div>
+      <Modal
+        isOpen={isOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+      >
+        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Data</h2>
+        <button className="Modal" onClick={closeModal}>
+          close
+        </button>
+        <ShowTable rows={obj} />
+      </Modal>
 
-     
       <div className="button-wrapper">
         <Cluster data={obj} />
         {/* <GeometryEditor data={obj} />  */}

@@ -10,12 +10,13 @@ module.exports = {
     output: {
         path: __dirname + '/dist',
         publicPath: "/",
-        filename: 'bundle.js'
+        filename: 'bundle.js',
     },
     devServer: {
         port: 8000,
         hot: true
     },
+    devtool: "source-map",
     resolve: {
         fallback: {
             assert: require.resolve('assert'),

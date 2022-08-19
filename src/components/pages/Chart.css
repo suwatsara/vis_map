@@ -10,6 +10,7 @@
     left: 20px;
     bottom: 15px;
     width: 550px;
+    z-index: 1;
   };
 
 

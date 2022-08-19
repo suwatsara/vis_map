@@ -11,7 +11,7 @@ import IconClusterLayer from "./IconClusterLayer";
 import { MapStylePicker } from "../controls";
 import "./About.css";
 import Chart from "./Chart";
-import styled from 'styled-components';
+import styled from "styled-components";
 import RangeInput from "./range-input";
 import { mapboxAccessToken, INITIAL_VIEW_STATE, MAP_STYLE } from "./utils";
 import CropDinIcon from "@mui/icons-material/CropDin";
@@ -19,13 +19,9 @@ import PolylineIcon from "@mui/icons-material/Polyline";
 import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
 import Panel from "./Panel";
-import Select from 'react-select';
 import ButtonLayer from "./ButtonLayer";
 
-
-
 const MAP_VIEW = new MapView({ repeat: true });
-
 
 function renderTooltip(info) {
   const { object, x, y } = info;
@@ -45,34 +41,42 @@ function renderTooltip(info) {
 }
 
 export const colorRange = [
-  [254,229,217],
-  [252,174,145],
-  [251,106,74],
-  [222,45,38],
-  [165,15,21]
+  [254, 229, 217],
+  [252, 174, 145],
+  [251, 106, 74],
+  [222, 45, 38],
+  [165, 15, 21],
 ];
 
 function getTimeRange(data) {
   if (!data) {
     return null;
   }
+
   const myArray = data.map((d) => d.timestamp);
 
-  let minElement = myArray[0];
-  for (let i = 1; i < myArray.length; ++i) {
-    if (myArray[i] < minElement) {
-      minElement = myArray[i];
+  for (let i = 0; i < myArray.length; ++i) {
+    if (myArray[0] === false || Number.isNaN(myArray[0])) {
+      return [] 
     }
   }
-
-  let maxElement = myArray[0];
-  for (let i = 1; i < myArray.length; ++i) {
-    if (myArray[i] > maxElement) {
-      maxElement = myArray[i];
+  
+    let minElement =  myArray[0] 
+    for (let i = 1; i < myArray.length; ++i) {
+      if (myArray[i] < minElement) {
+        minElement = myArray[i];
+      }
     }
-  }
 
-  return [minElement, maxElement];
+    let maxElement = myArray[0]
+    for (let i = 1; i < myArray.length; ++i) {
+      if (myArray[i] > maxElement) {
+        maxElement = myArray[i];
+      }
+    }
+
+
+    return [minElement, maxElement];
 }
 
 function formatLabel(t) {
@@ -144,13 +148,13 @@ export default function Cluster({
   const layer1 = showCluster
     ? new IconClusterLayer({ ...layerProps, id: "icon-cluster", sizeScale: 40 })
     : new IconLayer({
-      ...layerProps,
-      id: "icon",
-      getIcon: (d) => "marker",
-      sizeUnits: "meters",
-      sizeScale: 35,
-      sizeMinPixels: 6,
-    });
+        ...layerProps,
+        id: "icon",
+        getIcon: (d) => "marker",
+        sizeUnits: "meters",
+        sizeScale: 35,
+        sizeMinPixels: 6,
+      });
 
   const layer2 = new HeatmapLayer({
     id: "heatmp-layer",
@@ -216,40 +220,17 @@ export default function Cluster({
   };
   return (
     <div className="map">
-      <RangeInput
-        min={timeRange[0]}
-        max={timeRange[1]}
-        value={filterValue}
-        animationSpeed={300000}
-        formatLabel={formatLabel}
-        onChange={setFilter}
-      />
-
       <div>
         <MapStylePicker onStyleChange={onStyleChange} currentStyle={style} />
-        <ButtonLayer activeLayer={activeLayer} setActiveLayer={setActiveLayer} />
-        <DeckGL
-          layers={getLayers()}
-          views={MAP_VIEW}
-          initialViewState={INITIAL_VIEW_STATE}
-          controller={{
-            doubleClickZoom: false,
-          }}
-          onViewStateChange={hideTooltip}
-          onClick={expandTooltip}
-          getTooltip={
-            activeLayer === 2 &&
-            (({ object }) =>
-              object && `${object.position.join(", ")}\nGPS Count: ${object.count}`)
-          }
-        >
-          <Map
-            reuseMaps
-            mapStyle={style}
-            mapboxAccessToken={mapboxAccessToken}
-          />
-          {renderTooltip(hoverInfo)}
-        </DeckGL>
+        <ButtonLayer
+          activeLayer={activeLayer}
+          setActiveLayer={setActiveLayer}
+        />
+        <Panel
+          data={filteredData}
+          selected={selected}
+          activeLayer={activeLayer}
+        />
         {activeLayer === 3 && (
           <>
             <div className="wrapper">
@@ -265,12 +246,41 @@ export default function Cluster({
             </div>
           </>
         )}
-
-        <Panel data={filteredData} selected={selected} activeLayer={activeLayer} />
-
         <Chart data={data} />
+
+        <RangeInput
+          min={timeRange[0]}
+          max={timeRange[1]}
+          value={filterValue}
+          animationSpeed={300000}
+          formatLabel={formatLabel}
+          onChange={setFilter}
+        />
+
+        <DeckGL
+          layers={getLayers()}
+          views={MAP_VIEW}
+          initialViewState={INITIAL_VIEW_STATE}
+          controller={{
+            doubleClickZoom: false,
+          }}
+          onViewStateChange={hideTooltip}
+          onClick={expandTooltip}
+          getTooltip={
+            activeLayer === 2 &&
+            (({ object }) =>
+              object &&
+              `${object.position.join(", ")}\nGPS Count: ${object.count}`)
+          }
+        >
+          <Map
+            reuseMaps
+            mapStyle={style}
+            mapboxAccessToken={mapboxAccessToken}
+          />
+          {renderTooltip(hoverInfo)}
+        </DeckGL>
       </div>
     </div>
   );
 }
-

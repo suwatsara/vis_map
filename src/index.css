@@ -52,7 +52,6 @@ body {
 }
 
 button.layer {
-
 	height: 45px;
 	width: 45px;
 	padding: 2px;
@@ -62,17 +61,24 @@ button.layer {
 	border: none;
 	cursor: pointer;
 }
-.active{
 
+.active{
 	height: 45px;
 	width: 45px;
 	padding: 2px;
 	align-items: center;
 	justify-content: center;
 	border: none;
+	transition: all ease-in-out 0.2s;
 	cursor: pointer;
 	background-color: rgba(25, 118, 210, 0.5);
 }
+.layer:hover{
+	border: 1px solid #888;
+	background-color: rgb(255, 255, 255);
+  } 
+
+
 .icon{
 	width: max-content;
 	position: absolute;
