@@ -4,7 +4,7 @@ import DeckGL from "@deck.gl/react";
 import { HeatmapLayer, GridLayer } from "@deck.gl/aggregation-layers";
 import { MapView } from "@deck.gl/core";
 import { EditableGeoJsonLayer, SelectionLayer } from "@nebula.gl/layers";
-import { IconLayer, ScatterplotLayer } from "@deck.gl/layers";
+import { IconLayer, ScatterplotLayer, ArcLayer } from "@deck.gl/layers";
 import icon from "../../data/location-icon-atlas.png";
 import file from "../../data/location-icon-mapping.json";
 import IconClusterLayer from "./IconClusterLayer";
@@ -20,6 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
 import Panel from "./Panel";
 import ButtonLayer from "./ButtonLayer";
+import Heatmap from "./Heatmap";
 
 const MAP_VIEW = new MapView({ repeat: true });
 
@@ -104,6 +105,8 @@ export default function Cluster({
   const [selected, setSelected] = useState([]);
   const [mode, setMode] = useState(null);
   const radius = 5;
+
+  const valid = data[0] && (new Date(data[0].timestamp)).getTime() > 0;
 
   const selectedLayer = new ScatterplotLayer({
     id: "scatter-plot-selected",
@@ -248,14 +251,14 @@ export default function Cluster({
         )}
         <Chart data={data} />
 
-        <RangeInput
+        {valid && (<RangeInput
           min={timeRange[0]}
           max={timeRange[1]}
           value={filterValue}
           animationSpeed={300000}
           formatLabel={formatLabel}
           onChange={setFilter}
-        />
+        />)}
 
         <DeckGL
           layers={getLayers()}
@@ -268,9 +271,10 @@ export default function Cluster({
           onClick={expandTooltip}
           getTooltip={
             activeLayer === 2 &&
-            (({ object }) =>
+            (({ object }) => 
               object &&
               `${object.position.join(", ")}\nGPS Count: ${object.count}`)
+              
           }
         >
           <Map
@@ -281,6 +285,7 @@ export default function Cluster({
           {renderTooltip(hoverInfo)}
         </DeckGL>
       </div>
+      <Heatmap data={data} />
     </div>
   );
 }
