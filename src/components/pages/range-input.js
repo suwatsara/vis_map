@@ -112,7 +112,7 @@ export default function RangeInput({ min, max, value, animationSpeed, onChange, 
         max={max}
         step={3600000}
         value={value}
-        marks={true}
+        // marks={true}
         onChange={debounceChangeHandler}
         valueLabelDisplay="auto"
         valueLabelFormat={formatLabel}

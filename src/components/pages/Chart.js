@@ -75,6 +75,7 @@ function Chart({ data }) {
   const DataTime = newdata.reduce((group, product) => {
     let d = new Date(product["timestamp"]);
     d = Math.floor(d.getTime() / (1000 * 60 * 60));
+    // d = d.getHours()
     group[d] = group[d] ?? [];
     group[d].push(product);
     return group;

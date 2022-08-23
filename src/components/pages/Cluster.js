@@ -85,6 +85,9 @@ function formatLabel(t) {
     return `${(hour % 12 || 12) + " " + "PM"}`;
   }
   return `${(hour % 12 || 12) + " " + "AM"}`;
+  // return `${date.toLocaleDateString('en-US', {
+  //   weekday: 'short',
+  // })}/${date.getHours()}`;
 }
 
 export default function Cluster({
@@ -136,6 +139,8 @@ export default function Cluster({
     setState(style);
   }
 
+ 
+
   const layerProps = {
     data: filteredData,
     pickable: true,
@@ -180,6 +185,18 @@ export default function Cluster({
     getFilterValue: (d) => d.timestamp,
     // onHover: info => setGridInfo(info),
   });
+
+  // const layer3 = new ArcLayer({
+  //   id: 'arc-layer',
+  //   data:filteredData,
+  //   pickable: true,
+  //   getWidth: 3,
+  //   getSourcePosition: d => [d.longitude, d.latitude],
+  //   getTargetPosition: d =>  [100.53489956089857, 13.724923205611995],
+  //   getTargetColor: d => [255,255,204],
+  //   getSourceColor: d=> [161,218,180]
+
+  // });
 
   const layer4 = [
     new ScatterplotLayer({
@@ -254,7 +271,7 @@ export default function Cluster({
           min={timeRange[0]}
           max={timeRange[1]}
           value={filterValue}
-          animationSpeed={1000000}
+          animationSpeed={300000}
           formatLabel={formatLabel}
           onChange={setFilter}
         />)}
