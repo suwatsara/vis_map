@@ -4,10 +4,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import "./About.css";
 import Cluster from "./Cluster";
 import ShowTable from "./Table";
-import Chart from "./Chart";
 import Modal from "react-modal";
 import GeometryEditor from "./GeometryEditor";
-import { isString } from "lodash";
 
 const customStyles = {
   overlay: {
@@ -111,6 +109,7 @@ function About() {
         setIsShow(true);
       },
     });
+    
 
   };
 

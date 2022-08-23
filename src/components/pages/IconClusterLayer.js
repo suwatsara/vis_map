@@ -111,8 +111,11 @@ export default class IconClusterLayer extends CompositeLayer {
       }
       info.object = pickedObject;
     }
+
     return info;
+
   }
+
 
 
   renderLayers() {

@@ -11,7 +11,6 @@ import IconClusterLayer from "./IconClusterLayer";
 import { MapStylePicker } from "../controls";
 import "./About.css";
 import Chart from "./Chart";
-import styled from "styled-components";
 import RangeInput from "./range-input";
 import { mapboxAccessToken, INITIAL_VIEW_STATE, MAP_STYLE } from "./utils";
 import CropDinIcon from "@mui/icons-material/CropDin";
@@ -20,7 +19,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
 import Panel from "./Panel";
 import ButtonLayer from "./ButtonLayer";
-import Heatmap from "./Heatmap";
 
 const MAP_VIEW = new MapView({ repeat: true });
 
@@ -176,7 +174,7 @@ export default function Cluster({
     data: filteredData,
     pickable: true,
     extruded: true,
-    cellSize: 100,
+    cellSize: 120,
     elevationScale: 4,
     getPosition: (d) => [d.longitude, d.latitude],
     getFilterValue: (d) => d.timestamp,
@@ -250,12 +248,13 @@ export default function Cluster({
           </>
         )}
         <Chart data={data} />
+        {/* <Heatmap data={data} width={500} height={500} /> */}
 
         {valid && (<RangeInput
           min={timeRange[0]}
           max={timeRange[1]}
           value={filterValue}
-          animationSpeed={300000}
+          animationSpeed={1000000}
           formatLabel={formatLabel}
           onChange={setFilter}
         />)}
@@ -284,8 +283,9 @@ export default function Cluster({
           />
           {renderTooltip(hoverInfo)}
         </DeckGL>
+
       </div>
-      <Heatmap data={data} />
+
     </div>
   );
 }

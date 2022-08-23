@@ -1,32 +1,16 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import DeckGL from '@deck.gl/react';
-import './About.css'
+import React, { useRef, useMemo, useEffect } from "react";
+import DeckGL from "@deck.gl/react";
+import "./About.css";
+import * as d3 from "d3";
 
-
-function Heatmap({ data }) {
-  const newdata = data.map((row) => ({
-    timestamp: new Date(row.timestamp).getTime(),
-    latitude: row.latitude,
-    longitude: row.longitude,
-    value: 1
-  }));
-
-
-
-console.log(newdata)
-
+function Heatmap({ data, width, height }) {
 
 
   return (
     <div>
-
+     
     </div>
-
-
-  )
-
-
+  );
 }
 
 export default Heatmap;
-
