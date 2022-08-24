@@ -11,8 +11,11 @@ import TablePagination from '@mui/material/TablePagination';
 
 const PositionContainer = styled('div')({
     position: 'absolute',
-    width: '700px',
+    width: '95%',
     top:'70px',
+    right: "auto",
+    marginRight: "-50%",
+    marginLeft: "10px",
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
@@ -41,7 +44,7 @@ function ShowTable({rows }) {
         
             <PositionContainer>        
             <Paper sx={{ width: '100%', overflow: 'hidden'}}>
-                <TableContainer sx={{maxHeight: 360}}>
+                <TableContainer sx={{maxHeight: "600px"}}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead>
                             <TableRow>

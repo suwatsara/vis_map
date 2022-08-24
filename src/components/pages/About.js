@@ -24,8 +24,8 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "700px",
-    height: "500px",
+    width: "80%",
+    height: "80%",
   },
 };
 
@@ -109,8 +109,6 @@ function About() {
         setIsShow(true);
       },
     });
-    
-
   };
 
   const handleSelection = (event) => {
@@ -120,11 +118,12 @@ function About() {
     const lat = list.find((el) => el.name === x.value);
     const lng = list.find((el) => el.name === y.value);
     const time = list.find((el) => el.name === z.value);
+    // const speed = list.find((el) => el.name === "speed");
 
-    
     // convert to number
     const newLat = lat && lat.values.map((d) => Number(d));
     const newLng = lng && lng.values.map((d) => Number(d));
+    // const newspeed = speed && speed.values.map((d) => Number(d));
     const newTime =
       time && time.values.map((d) => new Date(Number(d) * 1000).getTime());
 
@@ -132,6 +131,7 @@ function About() {
       Lng: newLng,
       Lat: newLat,
       TimeStamp: newTime,
+      // Speed: newspeed
     });
 
     setIsUpload(false);
@@ -154,8 +154,28 @@ function About() {
     longitude,
     latitude,
     timestamp,
+    // speed
   }));
 
+  const lat_result = list.find(
+    ({ name }) => ((name === "lat") ||( name === "latitude") || (name === "Latitude") || (name === "Lat"))
+  );
+  let lat_res = list.some(
+    (code) => ((code.name ===  "lat") ||( code.name === "latitude") || (code.name === "Latitude") || (code.name === "Lat"))
+  );
+
+  const lat = lat_result && lat_result.name;
+
+  const lng_result = list.find(
+    ({ name }) =>
+       ((name ==="lng") || (name ==="longitude") || (name ==="Longitude") || (name ==="Lng") || (name ==="Long"))
+  );
+  let lng_res = list.some(
+    (code) =>
+       ((code.name ==="lng") || (code.name ==="longitude") || (code.name ==="Longitude") || (code.name ==="Lng") || (code.name ==="Long"))
+  );
+
+  const lng = lng_result && lng_result.name;
 
   return (
     <div>
@@ -225,12 +245,17 @@ function About() {
                     <label htmlFor="latitude">Latitude</label>
                     <div className="custom-select">
                       <select id="latitude" name="x">
-                        {list &&
-                          list.map((option) => (
-                            <option key={option.name} value={option.name}>
-                              {option.name}
-                            </option>
-                          ))}
+                       
+                            {lat_res ? (
+                              <option>{lat}</option>
+                            ) : (
+                              list.map((option) => (
+                                <option key={option.name} value={option.name}>
+                                  {option.name}
+                                </option>
+                              ))
+                            )}
+
                       </select>
                     </div>
                   </div>
@@ -239,12 +264,22 @@ function About() {
                     <label htmlFor="longitude">Longitude</label>
                     <div className="custom-select">
                       <select id="longitude" name="y">
-                        {list &&
+                        {/* {list &&
                           list.map((option) => (
                             <option key={option.name} value={option.name}>
                               {option.name}
                             </option>
-                          ))}
+                          ))} */}
+
+                        {lng_res ? (
+                          <option>{lng}</option>
+                        ) : (
+                          list.map((option) => (
+                            <option key={option.name} value={option.name}>
+                              {option.name}
+                            </option>
+                          ))
+                        )}
                       </select>
                     </div>
                   </div>
@@ -268,6 +303,7 @@ function About() {
                     <button
                       className="ShowData"
                       title="Show Data"
+                      type="button"
                       onClick={openModal}
                     >
                       Show Data Table

@@ -19,6 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
 import Panel from "./Panel";
 import ButtonLayer from "./ButtonLayer";
+import Heatmap from "./Heatmap";
 
 const MAP_VIEW = new MapView({ repeat: true });
 
@@ -167,6 +168,7 @@ export default function Cluster({
     data: filteredData,
     colorRange,
     getPosition: (d) => [d.longitude, d.latitude],
+    // getWeight: (d) => d.speed,
     intensity: 1,
     threshold: 0.05,
     getFilterValue: (d) => d.timestamp,

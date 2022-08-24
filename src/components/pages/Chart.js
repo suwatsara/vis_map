@@ -26,7 +26,8 @@ function AxisBottom({ scale,transform, ticks}) {
   useLayoutEffect(() => {
     if (ref.current) {
       d3.select(ref.current).call(
-        d3.axisBottom(scale).tickFormat(multiFormat).tickValues(ticks)
+        d3.axisBottom(scale).tickValues(ticks)
+        // d3.axisBottom(scale).tickFormat(multiFormat).tickValues(ticks)
       );
     }
   }, [scale]);
@@ -74,17 +75,17 @@ function Chart({ data }) {
 
   const DataTime = newdata.reduce((group, product) => {
     let d = new Date(product["timestamp"]);
-    d = Math.floor(d.getTime() / (1000 * 60 * 60));
-    // d = d.getHours()
+    d = Math.floor(d.getHours());
     group[d] = group[d] ?? [];
     group[d].push(product);
     return group;
   }, {});
 
   const CountHours = Object.entries(DataTime).map(([groupname, value]) => ({
-    hour: (+groupname) * (1000 * 60 * 60),
+    hour: (+groupname),
     count: value.length,
   }));
+
 
   const margin = { top: 10, right: 5, bottom: 25, left: 60 },
     width =550 - margin.right - margin.left,
@@ -93,14 +94,14 @@ function Chart({ data }) {
   const xScale = d3
     .scaleBand()
     .domain(CountHours.map(({ hour }) => hour))
-    .rangeRound([0, width])
+    .range([0, width])
     .padding(0.3);
   const yScale = d3
     .scaleLinear()
     .domain([(Math.min(...CountHours.map(({count}) => count))-2000), Math.max(...CountHours.map(({ count }) => count))])
     .range([height, 0]);
 
-    const ticks = xScale.domain().filter((e,i)=>i%10==0);
+    const ticks = xScale.domain().filter((e,i)=>i%5==0);
 
   return (
     <>
