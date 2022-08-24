@@ -220,7 +220,7 @@ export function LayerControls() {
 
 const SelectItem = styled.select`
     height:45px;
-    width: 105px;
+    width: 108px;
 	align-items: center;
 	justify-content: center;
     background: white;
@@ -231,7 +231,7 @@ const SelectItem = styled.select`
     right: 20px;
     font-size: 14px;
     padding: 0 30px 0 10px;
-    margin: 0 5px 5px 0;
+    margin: 0 0 5px 0;
     border: transparent;
     border-radius: 3px;
 	z-index: 1;

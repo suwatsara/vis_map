@@ -57,6 +57,7 @@ button.layer {
 	padding: 2px;
 	align-items: center;
 	justify-content: center;
+	border-radius: 4px;
 	background-color: white;
 	border: none;
 	cursor: pointer;
@@ -75,20 +76,22 @@ button.layer {
 }
 .layer:hover{
 	border: 1px solid #888;
+	border-radius: 0%;
 	background-color: rgb(255, 255, 255);
   } 
 
 
 .icon{
-	width: max-content;
+	width: 188px;
 	position: absolute;
 	top: 14px;
 	align-items: center;
 	justify-content: center;
-	right: 139px;
+	margin: 0 0 5px 0;
+	right: 133px;
 	z-index: 1;
 	background-color: white;
-	border-radius: 3px;
+	border-radius: 4px;
 	height: 45px;
 
 }
