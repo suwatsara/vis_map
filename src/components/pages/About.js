@@ -323,7 +323,7 @@ function About() {
       >
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Data</h2>
         <button className="Modal" onClick={closeModal}>
-          close
+        ✕
         </button>
         <ShowTable rows={obj} />
       </Modal>

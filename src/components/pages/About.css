@@ -176,21 +176,15 @@ h3{
 }
 .Modal {
     position: absolute;
-    bottom: 20px;
-    right: 10px;
-    height: 32px;
+    top: 10px;
+    right: 20px;
+    height: 55px;
+    width: 55px;
     cursor: pointer;
-    background-color: #ffffff;
-    color: #1976d2;
-    border: 1px solid rgba(25, 118, 210, 0.5);
+    align-items: center;
+    color: rgb(0, 0, 0);
+    border: none;
     background-color: transparent;
-    font-weight: 500;
-    font-size: 0.875rem;
-    letter-spacing: 0.02857em;
-    text-transform: uppercase;
-    width:max-content;
-    padding: 5px 15px;
-    border-radius: 4px;
 }
 h2{
     display: flex;
