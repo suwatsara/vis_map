@@ -26,7 +26,7 @@ function AxisBottom({ scale,transform, ticks}) {
   useLayoutEffect(() => {
     if (ref.current) {
       d3.select(ref.current).call(
-        d3.axisBottom(scale).tickValues(ticks)
+        d3.axisBottom(scale)
         // d3.axisBottom(scale).tickFormat(multiFormat).tickValues(ticks)
       );
     }
@@ -87,7 +87,7 @@ function Chart({ data }) {
   }));
 
 
-  const margin = { top: 10, right: 5, bottom: 25, left: 60 },
+  const margin = { top: 10, right: 5, bottom: 25, left: 40 },
     width =550 - margin.right - margin.left,
     height = 90 - margin.top - margin.bottom;
 
@@ -98,10 +98,10 @@ function Chart({ data }) {
     .padding(0.3);
   const yScale = d3
     .scaleLinear()
-    .domain([(Math.min(...CountHours.map(({count}) => count))-2000), Math.max(...CountHours.map(({ count }) => count))])
+    .domain([(Math.min(...CountHours.map(({count}) => count))), Math.max(...CountHours.map(({ count }) => count))])
     .range([height, 0]);
 
-    const ticks = xScale.domain().filter((e,i)=>i%5==0);
+    // const ticks = xScale.domain().filter((e,i)=>i%5==0);
 
   return (
     <>
@@ -114,7 +114,7 @@ function Chart({ data }) {
             <g transform={`translate(${margin.left}, ${margin.top})`}>
               <AxisBottom
                 scale={xScale}
-                ticks={ticks}
+
                 transform={`translate(0, ${height})`}
               />
               <AxisLeft scale={yScale} />

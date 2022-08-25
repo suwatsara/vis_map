@@ -220,7 +220,7 @@ export function LayerControls() {
 
 const SelectItem = styled.select`
     height:45px;
-    width: 108px;
+    width: 115px;
 	align-items: center;
 	justify-content: center;
     background: white;

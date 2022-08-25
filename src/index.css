@@ -45,12 +45,6 @@ body {
 	align-items: center;
 }
 
-.react-select-container {
-	border-color: white;
-	width: 155px;
-	height: 35px;
-}
-
 button.layer {
 	height: 45px;
 	width: 45px;
@@ -82,13 +76,13 @@ button.layer {
 
 
 .icon{
-	width: 188px;
+	width: max-content;
 	position: absolute;
 	top: 14px;
 	align-items: center;
 	justify-content: center;
 	margin: 0 0 5px 0;
-	right: 133px;
+	right: 140px;
 	z-index: 1;
 	background-color: white;
 	border-radius: 4px;

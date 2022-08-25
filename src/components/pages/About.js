@@ -5,7 +5,6 @@ import "./About.css";
 import Cluster from "./Cluster";
 import ShowTable from "./Table";
 import Modal from "react-modal";
-import GeometryEditor from "./GeometryEditor";
 
 const customStyles = {
   overlay: {
@@ -168,11 +167,11 @@ function About() {
 
   const lng_result = list.find(
     ({ name }) =>
-       ((name ==="lng") || (name ==="longitude") || (name ==="Longitude") || (name ==="Lng") || (name ==="Long"))
+       ((name ==="lng") || (name ==="longitude") || (name ==="Longitude") || (name ==="Lng") || (name ==="Long") || (name ==="long"))
   );
   let lng_res = list.some(
     (code) =>
-       ((code.name ==="lng") || (code.name ==="longitude") || (code.name ==="Longitude") || (code.name ==="Lng") || (code.name ==="Long"))
+       ((code.name ==="lng") || (code.name ==="longitude") || (code.name ==="Longitude") || (code.name ==="Lng") || (code.name ==="Long") || (code.name ==="long"))
   );
 
   const lng = lng_result && lng_result.name;

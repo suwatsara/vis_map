@@ -57,26 +57,25 @@ function getTimeRange(data) {
 
   for (let i = 0; i < myArray.length; ++i) {
     if (myArray[0] === false || Number.isNaN(myArray[0])) {
-      return [] 
+      return [];
     }
   }
-  
-    let minElement =  myArray[0] 
-    for (let i = 1; i < myArray.length; ++i) {
-      if (myArray[i] < minElement) {
-        minElement = myArray[i];
-      }
+
+  let minElement = myArray[0];
+  for (let i = 1; i < myArray.length; ++i) {
+    if (myArray[i] < minElement) {
+      minElement = myArray[i];
     }
+  }
 
-    let maxElement = myArray[0]
-    for (let i = 1; i < myArray.length; ++i) {
-      if (myArray[i] > maxElement) {
-        maxElement = myArray[i];
-      }
+  let maxElement = myArray[0];
+  for (let i = 1; i < myArray.length; ++i) {
+    if (myArray[i] > maxElement) {
+      maxElement = myArray[i];
     }
+  }
 
-
-    return [minElement, maxElement];
+  return [minElement, maxElement];
 }
 
 function formatLabel(t) {
@@ -97,6 +96,15 @@ export default function Cluster({
   iconAtlas = icon,
   showCluster = true,
 }) {
+  const [viewState,setViewSate ] = useState({
+    longitude: 100.535242,
+    latitude: 13.727899,
+    zoom: 12,
+    pitch: 12,
+    bearing: 0,
+  });
+
+
   const [filter, setFilter] = useState(null);
   const timeRange = useMemo(() => getTimeRange(data), [data]);
   const filterValue = filter || timeRange;
@@ -108,7 +116,7 @@ export default function Cluster({
   const [mode, setMode] = useState(null);
   const radius = 5;
 
-  const valid = data[0] && (new Date(data[0].timestamp)).getTime() > 0;
+  const valid = data[0] && new Date(data[0].timestamp).getTime() > 0;
 
   const selectedLayer = new ScatterplotLayer({
     id: "scatter-plot-selected",
@@ -139,8 +147,6 @@ export default function Cluster({
   function onStyleChange(style) {
     setState(style);
   }
-
- 
 
   const layerProps = {
     data: filteredData,
@@ -267,32 +273,32 @@ export default function Cluster({
           </>
         )}
         <Chart data={data} />
-        {/* <Heatmap data={data} width={500} height={500} /> */}
 
-        {valid && (<RangeInput
-          min={timeRange[0]}
-          max={timeRange[1]}
-          value={filterValue}
-          animationSpeed={300000}
-          formatLabel={formatLabel}
-          onChange={setFilter}
-        />)}
+        {valid && (
+          <RangeInput
+            min={timeRange[0]}
+            max={timeRange[1]}
+            value={filterValue}
+            animationSpeed={300000}
+            formatLabel={formatLabel}
+            onChange={setFilter}
+          />
+        )}
 
         <DeckGL
           layers={getLayers()}
           views={MAP_VIEW}
-          initialViewState={INITIAL_VIEW_STATE}
+          viewState={viewState}
+          onViewStateChange={(e) => setViewSate(e.viewState)}
           controller={{
             doubleClickZoom: false,
           }}
-          onViewStateChange={hideTooltip}
           onClick={expandTooltip}
           getTooltip={
             activeLayer === 2 &&
-            (({ object }) => 
+            (({ object }) =>
               object &&
               `${object.position.join(", ")}\nGPS Count: ${object.count}`)
-              
           }
         >
           <Map
@@ -302,9 +308,7 @@ export default function Cluster({
           />
           {renderTooltip(hoverInfo)}
         </DeckGL>
-
       </div>
-
     </div>
   );
 }
