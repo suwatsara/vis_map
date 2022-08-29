@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Papa from "papaparse";
 import LoadingButton from "@mui/lab/LoadingButton";
 import "./About.css";
@@ -36,6 +36,7 @@ function About() {
   const [selected, setSelected] = useState([
     { Lng: {}, Lat: {}, TimeStamp: {} },
   ]);
+
   const [loading, setLoading] = useState(false);
   const [buttonloading, setButtonLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +47,7 @@ function About() {
   const handleOnClick = () => {
     setIsShow(!isShow);
   };
+  const inputRef = useRef(null);
 
   let subtitle;
   function openModal() {
@@ -60,12 +62,26 @@ function About() {
   function closeModal() {
     setIsOpen(false);
   }
+  const resetFileInput = () => {
+    //reset input value
+    inputRef.current.value = null;
+    setList([]);
+    setFile(null)
+    setSelected([
+      { Lng: {}, Lat: {}, TimeStamp: {} }
+    ])
+
+  };
 
   const handleOnChange = (e) => {
     setFile(e.target.files[0]);
   };
 
   const handleSubmit = (event) => {
+    setList([]);
+    setSelected([
+      { Lng: {}, Lat: {}, TimeStamp: {} }
+    ]);
     setButtonLoading(true);
     event.preventDefault();
     Papa.parse(file, {
@@ -106,9 +122,11 @@ function About() {
         setButtonLoading(false);
         setLoading(true);
         setIsShow(true);
+
       },
     });
   };
+
 
   const handleSelection = (event) => {
     event.preventDefault();
@@ -120,11 +138,33 @@ function About() {
     // const speed = list.find((el) => el.name === "speed");
 
     // convert to number
+
+    let newTime = [];
+    for (let i = 1; i < time.values.length; ++i) {
+      if (isNaN(time.values[i])) {
+        newTime.push((new Date(time.values[i]).getTime()));
+      }
+      else{
+        newTime.push((new Date(time.values[i] * 1000).getTime()))
+      }
+    }
+
     const newLat = lat && lat.values.map((d) => Number(d));
     const newLng = lng && lng.values.map((d) => Number(d));
     // const newspeed = speed && speed.values.map((d) => Number(d));
-    const newTime =
-      time && time.values.map((d) => new Date(Number(d) * 1000).getTime());
+    
+    // const newTime =
+    //   time && time.values.map((d) => new Date(Number(d) * 1000).getTime());
+    if(isNaN(newLat[0])) {
+        alert("Can not read this data type (NaN) in Lattitude \nPlease check your file")
+        return [];
+    }
+
+    if(isNaN(newLng[0])) {
+      alert("Can not read this data type (NaN) in Longitude \nPlease check your file")
+      return [];
+  }
+
 
     setSelected({
       Lng: newLng,
@@ -133,13 +173,15 @@ function About() {
       // Speed: newspeed
     });
 
+    console.log(selected)
+
     setIsUpload(false);
     setIsShowData(true);
   };
   // select only values
   const values = Object.values(selected);
 
-  var arr = [];
+  let arr = [];
 
   // Map each value from
   // {Lat: [array], Lng: [array], TimeStamp: [array]} -> [[Lng, Lat, TimeStamp]]
@@ -156,22 +198,26 @@ function About() {
     // speed
   }));
 
+  console.log(selected)
+
+
+
   const lat_result = list.find(
-    ({ name }) => ((name === "lat") ||( name === "latitude") || (name === "Latitude") || (name === "Lat"))
+    ({ name }) => ((name === "lat") || (name === "latitude") || (name === "Latitude") || (name === "Lat"))
   );
   let lat_res = list.some(
-    (code) => ((code.name ===  "lat") ||( code.name === "latitude") || (code.name === "Latitude") || (code.name === "Lat"))
+    (code) => ((code.name === "lat") || (code.name === "latitude") || (code.name === "Latitude") || (code.name === "Lat"))
   );
 
   const lat = lat_result && lat_result.name;
 
   const lng_result = list.find(
     ({ name }) =>
-       ((name ==="lng") || (name ==="longitude") || (name ==="Longitude") || (name ==="Lng") || (name ==="Long") || (name ==="long"))
+      ((name === "lng") || (name === "longitude") || (name === "Longitude") || (name === "Lng") || (name === "Long") || (name === "long"))
   );
   let lng_res = list.some(
     (code) =>
-       ((code.name ==="lng") || (code.name ==="longitude") || (code.name ==="Longitude") || (code.name ==="Lng") || (code.name ==="Long") || (code.name ==="long"))
+      ((code.name === "lng") || (code.name === "longitude") || (code.name === "Longitude") || (code.name === "Lng") || (code.name === "Long") || (code.name === "long"))
   );
 
   const lng = lng_result && lng_result.name;
@@ -193,6 +239,7 @@ function About() {
                     <label>✨ Upload File</label>
                     <br />
                     <input
+                      ref={inputRef}
                       type="file"
                       name="file"
                       accept=".csv,.xlsx,.xls,.xml"
@@ -211,12 +258,16 @@ function About() {
               )}
               {!isUpload && (
                 <>
-                  <h3>Current File: {file.name}</h3>
+                  {file && <h3>Current File: {file.name}</h3>}
+                  <button className="delete" title="Delete file" type="button" onClick={resetFileInput}>
+                    Delete File
+                  </button>
                   <label>✨ Upload new File</label>
                   <div className="fileUploadInput">
                     <input
                       type="file"
                       name="file"
+                      ref={inputRef}
                       accept=".csv,.xlsx,.xls,.xml"
                       onChange={handleOnChange}
                     />
@@ -244,16 +295,16 @@ function About() {
                     <label htmlFor="latitude">Latitude</label>
                     <div className="custom-select">
                       <select id="latitude" name="x">
-                       
-                            {lat_res ? (
-                              <option>{lat}</option>
-                            ) : (
-                              list.map((option) => (
-                                <option key={option.name} value={option.name}>
-                                  {option.name}
-                                </option>
-                              ))
-                            )}
+
+                        {lat_res ? (
+                          <option>{lat}</option>
+                        ) : (
+                          list.map((option) => (
+                            <option key={option.name} value={option.name}>
+                              {option.name}
+                            </option>
+                          ))
+                        )}
 
                       </select>
                     </div>
@@ -322,7 +373,7 @@ function About() {
       >
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Data</h2>
         <button className="Modal" onClick={closeModal}>
-        ✕
+          ✕
         </button>
         <ShowTable rows={obj} />
       </Modal>
