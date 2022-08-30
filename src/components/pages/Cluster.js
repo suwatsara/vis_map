@@ -53,6 +53,7 @@ function getTimeRange(data) {
     return null;
   }
 
+
   const myArray = data.map((d) => d.timestamp);
 
   for (let i = 0; i < myArray.length; ++i) {

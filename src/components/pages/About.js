@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Papa from "papaparse";
 import LoadingButton from "@mui/lab/LoadingButton";
 import "./About.css";
@@ -33,10 +33,7 @@ Modal.setAppElement(document.getElementById("root"));
 function About() {
   const [file, setFile] = useState("");
   const [list, setList] = useState([]);
-  const [selected, setSelected] = useState([
-    { Lng: {}, Lat: {}, TimeStamp: {} },
-  ]);
-
+  const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   const [buttonloading, setButtonLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -66,11 +63,8 @@ function About() {
     //reset input value
     inputRef.current.value = null;
     setList([]);
-    setFile(null)
-    setSelected([
-      { Lng: {}, Lat: {}, TimeStamp: {} }
-    ])
-
+    setFile(null);
+    setSelected([]);
   };
 
   const handleOnChange = (e) => {
@@ -79,9 +73,7 @@ function About() {
 
   const handleSubmit = (event) => {
     setList([]);
-    setSelected([
-      { Lng: {}, Lat: {}, TimeStamp: {} }
-    ]);
+    setSelected([]);
     setButtonLoading(true);
     event.preventDefault();
     Papa.parse(file, {
@@ -122,11 +114,9 @@ function About() {
         setButtonLoading(false);
         setLoading(true);
         setIsShow(true);
-
       },
     });
   };
-
 
   const handleSelection = (event) => {
     event.preventDefault();
@@ -135,89 +125,102 @@ function About() {
     const lat = list.find((el) => el.name === x.value);
     const lng = list.find((el) => el.name === y.value);
     const time = list.find((el) => el.name === z.value);
-    // const speed = list.find((el) => el.name === "speed");
-
-    // convert to number
 
     let newTime = [];
-    for (let i = 1; i < time.values.length; ++i) {
+    for (var i = 0; i < time.values.length; i++) {
       if (isNaN(time.values[i])) {
-        newTime.push((new Date(time.values[i]).getTime()));
-      }
-      else{
-        newTime.push((new Date(time.values[i] * 1000).getTime()))
+        newTime.push(new Date(time.values[i]).getTime());
+      } else if (time.values[i] > 1000000000000) {
+        newTime.push(new Date(time.values[i]).getTime());
+      } else {
+        newTime.push(new Date(time.values[i] * 1000).getTime());
       }
     }
 
     const newLat = lat && lat.values.map((d) => Number(d));
     const newLng = lng && lng.values.map((d) => Number(d));
     // const newspeed = speed && speed.values.map((d) => Number(d));
-    
+
     // const newTime =
     //   time && time.values.map((d) => new Date(Number(d) * 1000).getTime());
-    if(isNaN(newLat[0])) {
-        alert("Can not read this data type (NaN) in Lattitude \nPlease check your file")
+
+    for (var i = 0; i < newLat.length; i++) {
+      if (isNaN(newLat[i])) {
+        alert(
+          "Can not read this data type (NaN) in Lattitude \nPlease check your file"
+        );
         return [];
+      }
     }
 
-    if(isNaN(newLng[0])) {
-      alert("Can not read this data type (NaN) in Longitude \nPlease check your file")
-      return [];
-  }
+    for (var i = 0; i < newLng.length; i++) {
+      if (isNaN(newLng[i])) {
+        alert(
+          "Can not read this data type (NaN) in Longitude \nPlease check your file"
+        );
+        return [];
+      }
+    }
 
+    let copiedArray = []
+    for (var i = 0; i < newLng.length; i++) {
+      copiedArray.push({
+        latitude: newLat[i],
+        longitude: newLng[i],
+        timestamp: newTime[i],
+      });
+      setSelected(copiedArray);
 
-    setSelected({
-      Lng: newLng,
-      Lat: newLat,
-      TimeStamp: newTime,
-      // Speed: newspeed
-    });
-
-    console.log(selected)
+    }
 
     setIsUpload(false);
     setIsShowData(true);
   };
-  // select only values
-  const values = Object.values(selected);
 
-  let arr = [];
+  // const values = Object.values(selected);
+  // console.log(selected);
+  // let arr = [];
 
-  // Map each value from
-  // {Lat: [array], Lng: [array], TimeStamp: [array]} -> [[Lng, Lat, TimeStamp]]
-  for (var i = 0; i < values[0].length; i++) {
-    const col0 = values.map((d) => d[i]);
-    arr.push(col0);
-  }
+  // // Map each value from
+  // // {Lat: [array], Lng: [array], TimeStamp: [array]} -> [[Lng, Lat, TimeStamp]]
+  // for (var i = 0; i < values[0].length; i++) {
+  //   const col0 = values.map((d) => d[i]);
+  //   arr.push(col0);
+  // }
 
-  // [[Lng, Lat, TimeStamp]] -> {[{longitude: , latitude: , timestamp: }]}
-  const obj = arr.map(([longitude, latitude, timestamp]) => ({
-    longitude,
-    latitude,
-    timestamp,
-    // speed
-  }));
-
-  console.log(selected)
-
-
+  // // [[Lng, Lat, TimeStamp]] -> {[{longitude: , latitude: , timestamp: }]}
+  // const obj = arr.map(([longitude, latitude, timestamp]) => ({
+  //   longitude,
+  //   latitude,
+  //   timestamp,
+  // }));
 
   const lat_result = list.find(
-    ({ name }) => ((name === "lat") || (name === "latitude") || (name === "Latitude") || (name === "Lat"))
+    ({ name }) =>
+      name.startsWith("lat")||
+      name.startsWith("Lat")
   );
   let lat_res = list.some(
-    (code) => ((code.name === "lat") || (code.name === "latitude") || (code.name === "Latitude") || (code.name === "Lat"))
+    (code) =>
+    code.name.startsWith("lat")||
+    code.name.startsWith("Lat")
   );
 
   const lat = lat_result && lat_result.name;
 
   const lng_result = list.find(
     ({ name }) =>
-      ((name === "lng") || (name === "longitude") || (name === "Longitude") || (name === "Lng") || (name === "Long") || (name === "long"))
+      name === "lng" ||
+      name === "Lng" ||
+      name.startsWith("Lon") ||
+      name.startsWith("lon")
   );
   let lng_res = list.some(
     (code) =>
-      ((code.name === "lng") || (code.name === "longitude") || (code.name === "Longitude") || (code.name === "Lng") || (code.name === "Long") || (code.name === "long"))
+      code.name === "lng" ||
+      code.name === "Lng" ||
+      code.name.startsWith("Lon") ||
+      code.name.startsWith("lon")
   );
 
   const lng = lng_result && lng_result.name;
@@ -259,7 +262,12 @@ function About() {
               {!isUpload && (
                 <>
                   {file && <h3>Current File: {file.name}</h3>}
-                  <button className="delete" title="Delete file" type="button" onClick={resetFileInput}>
+                  <button
+                    className="delete"
+                    title="Delete file"
+                    type="button"
+                    onClick={resetFileInput}
+                  >
                     Delete File
                   </button>
                   <label>✨ Upload new File</label>
@@ -295,7 +303,6 @@ function About() {
                     <label htmlFor="latitude">Latitude</label>
                     <div className="custom-select">
                       <select id="latitude" name="x">
-
                         {lat_res ? (
                           <option>{lat}</option>
                         ) : (
@@ -305,7 +312,6 @@ function About() {
                             </option>
                           ))
                         )}
-
                       </select>
                     </div>
                   </div>
@@ -375,11 +381,11 @@ function About() {
         <button className="Modal" onClick={closeModal}>
           ✕
         </button>
-        <ShowTable rows={obj} />
+        <ShowTable rows={selected} />
       </Modal>
 
       <div className="button-wrapper">
-        <Cluster data={obj} />
+        <Cluster data={selected} />
         {/* <GeometryEditor data={obj} />  */}
       </div>
     </div>
