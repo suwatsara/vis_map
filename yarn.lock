@@ -1234,7 +1234,7 @@
     "source-map" "^0.5.7"
     "stylis" "4.0.13"
 
-"@emotion/cache@^11.4.0", "@emotion/cache@^11.9.3":
+"@emotion/cache@^11.9.3":
   "integrity" "sha512-0dgkI/JKlCXa+lEXviaMtGBL0ynpx4osh7rjOXE71q9bIF8G+XhJgvi+wDu0B0IdCVx37BffiwXlN9I3UuzFvg=="
   "resolved" "https://registry.npmjs.org/@emotion/cache/-/cache-11.9.3.tgz"
   "version" "11.9.3"
@@ -1274,7 +1274,7 @@
   "resolved" "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.7.4.tgz"
   "version" "0.7.4"
 
-"@emotion/react@^11.8.1", "@emotion/react@^11.9.3":
+"@emotion/react@^11.9.3":
   "integrity" "sha512-g9Q1GcTOlzOEjqwuLF/Zd9LC+4FljjPjDfxSM7KmEakm+hsHXk+bYZ2q+/hTJzr0OUNkujo72pXLQvXj6H+GJQ=="
   "resolved" "https://registry.npmjs.org/@emotion/react/-/react-11.9.3.tgz"
   "version" "11.9.3"
@@ -2787,7 +2787,7 @@
     "hoist-non-react-statics" "^3.3.0"
     "redux" "^4.0.0"
 
-"@types/react-transition-group@^4.4.0", "@types/react-transition-group@^4.4.5":
+"@types/react-transition-group@^4.4.5":
   "integrity" "sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA=="
   "resolved" "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.5.tgz"
   "version" "4.4.5"
@@ -5411,6 +5411,11 @@
   "integrity" "sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ=="
   "resolved" "https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz"
   "version" "2.0.8"
+
+"hamt_plus@1.0.2":
+  "integrity" "sha512-t2JXKaehnMb9paaYA7J0BX8QQAY8lwfQ9Gjf4pg/mk4krt+cmwmU652HOoWonf+7+EQV97ARPMhhVgU1ra2GhA=="
+  "resolved" "https://registry.npmjs.org/hamt_plus/-/hamt_plus-1.0.2.tgz"
+  "version" "1.0.2"
 
 "handle-thing@^2.0.0":
   "integrity" "sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg=="
@@ -8090,19 +8095,6 @@
   dependencies:
     "history" "^5.2.0"
 
-"react-select@^5.4.0":
-  "integrity" "sha512-CjE9RFLUvChd5SdlfG4vqxZd55AZJRrLrHzkQyTYeHlpOztqcgnyftYAolJ0SGsBev6zAs6qFrjm6KU3eo2hzg=="
-  "resolved" "https://registry.npmjs.org/react-select/-/react-select-5.4.0.tgz"
-  "version" "5.4.0"
-  dependencies:
-    "@babel/runtime" "^7.12.0"
-    "@emotion/cache" "^11.4.0"
-    "@emotion/react" "^11.8.1"
-    "@types/react-transition-group" "^4.4.0"
-    "memoize-one" "^5.0.0"
-    "prop-types" "^15.6.0"
-    "react-transition-group" "^4.3.0"
-
 "react-sortable-hoc@^1.8.3":
   "integrity" "sha512-v1CDCvdfoR3zLGNp6qsBa4J1BWMEVH25+UKxF/RvQRh+mrB+emqtVHMgZ+WreUiKJoEaiwYoScaueIKhMVBHUg=="
   "resolved" "https://registry.npmjs.org/react-sortable-hoc/-/react-sortable-hoc-1.11.0.tgz"
@@ -8130,7 +8122,7 @@
     "prop-types" "^15.7.2"
     "uuid" "^7.0.3"
 
-"react-transition-group@^4.3.0", "react-transition-group@^4.4.2":
+"react-transition-group@^4.4.2":
   "integrity" "sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg=="
   "resolved" "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.2.tgz"
   "version" "4.4.2"
@@ -8283,6 +8275,13 @@
   "version" "0.7.1"
   dependencies:
     "resolve" "^1.9.0"
+
+"recoil@^0.7.5":
+  "integrity" "sha512-GVShsj5+M/2GULWBs5WBJGcsNis/d3YvDiaKjYh3mLKXftjtmk9kfaQ8jwjoIXySCwn8/RhgJ4Sshwgzj2UpFA=="
+  "resolved" "https://registry.npmjs.org/recoil/-/recoil-0.7.5.tgz"
+  "version" "0.7.5"
+  dependencies:
+    "hamt_plus" "1.0.2"
 
 "reduce-flatten@^2.0.0":
   "integrity" "sha512-EJ4UNY/U1t2P/2k6oqotuX2Cc3T6nxJwsM0N0asT7dhrtH1ltUxDn4NalSYmPE2rCkVpcf/X6R0wDwcFpzhd4w=="

@@ -1,10 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Papa from "papaparse";
 import LoadingButton from "@mui/lab/LoadingButton";
 import "./About.css";
 import Cluster from "./Cluster";
 import ShowTable from "./Table";
 import Modal from "react-modal";
+import { FlyToInterpolator } from 'deck.gl';
+import { viewportState } from "./utils";
+import { useRecoilState } from 'recoil';
+
 
 const customStyles = {
   overlay: {
@@ -38,12 +42,15 @@ function About() {
   const [buttonloading, setButtonLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(true);
-  const [isShow, setIsShow] = useState(true);
+  const [isShow, setIsShow] = useState(false);
   const [isShowData, setIsShowData] = useState(false);
+  const [viewport, setViewport] = useRecoilState(viewportState);
 
   const handleOnClick = () => {
     setIsShow(!isShow);
   };
+
+
   const inputRef = useRef(null);
 
   let subtitle;
@@ -68,14 +75,18 @@ function About() {
   };
 
   const handleOnChange = (e) => {
+
     setFile(e.target.files[0]);
+
   };
+
 
   const handleSubmit = (event) => {
     setList([]);
     setSelected([]);
     setButtonLoading(true);
     event.preventDefault();
+
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
@@ -173,9 +184,25 @@ function About() {
 
     }
 
+    const arrLat = newLat.reduce((a, b) => a + b, 0) / newLat.length
+    const arrLng = newLng.reduce((a, b) => a + b, 0) / newLng.length
+
+    const flyto = {
+      longitude: arrLng,
+      latitude: arrLat,
+      zoom: 8,
+      maxZoom: 15,
+      pitch: 12,
+      bearing: 0,
+      transitionDuration: 1200,
+      transitionInterpolator: new FlyToInterpolator()
+    }
+
+    setViewport(flyto)
     setIsUpload(false);
     setIsShowData(true);
   };
+
 
   // const values = Object.values(selected);
   // console.log(selected);
@@ -197,13 +224,13 @@ function About() {
 
   const lat_result = list.find(
     ({ name }) =>
-      name.startsWith("lat")||
-      name.startsWith("Lat")
+      name.includes("lat") ||
+      name.includes("Lat")
   );
   let lat_res = list.some(
     (code) =>
-    code.name.startsWith("lat")||
-    code.name.startsWith("Lat")
+      code.name.includes("lat") ||
+      code.name.includes("Lat")
   );
 
   const lat = lat_result && lat_result.name;
@@ -212,15 +239,15 @@ function About() {
     ({ name }) =>
       name === "lng" ||
       name === "Lng" ||
-      name.startsWith("Lon") ||
-      name.startsWith("lon")
+      name.includes("Lon") ||
+      name.includes("lon")
   );
   let lng_res = list.some(
     (code) =>
       code.name === "lng" ||
       code.name === "Lng" ||
-      code.name.startsWith("Lon") ||
-      code.name.startsWith("lon")
+      code.name.includes("Lon") ||
+      code.name.includes("lon")
   );
 
   const lng = lng_result && lng_result.name;
@@ -264,11 +291,11 @@ function About() {
                   {file && <h3>Current File: {file.name}</h3>}
                   <button
                     className="delete"
-                    title="Delete file"
+                    title="Remove file"
                     type="button"
                     onClick={resetFileInput}
                   >
-                    Delete File
+                    Remove File
                   </button>
                   <label>✨ Upload new File</label>
                   <div className="fileUploadInput">
@@ -385,7 +412,7 @@ function About() {
       </Modal>
 
       <div className="button-wrapper">
-        <Cluster data={selected} />
+        <Cluster data={selected} viewport={viewport} />
         {/* <GeometryEditor data={obj} />  */}
       </div>
     </div>

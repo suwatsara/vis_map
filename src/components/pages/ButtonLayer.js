@@ -1,12 +1,15 @@
 import React from "react";
 
-function ButtonLayer({ activeLayer, setActiveLayer }) {
+function ButtonLayer({ setLayerVsisibility, layerVisibility }) {
   return (
     <div className="icon">
       <button
         title="Cluster Layer"
-        className={activeLayer === 0 ? "active" : "layer"}
-        onClick={() => setActiveLayer(0)}
+        className={layerVisibility.cluster ? "active" : "layer"}
+        onClick={() =>
+          setLayerVsisibility((p) => ({
+            cluster: !p.cluster
+          }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
           <circle
@@ -110,8 +113,11 @@ function ButtonLayer({ activeLayer, setActiveLayer }) {
 
       <button
         title="Heatmap"
-        className={activeLayer === 1 ? "active" : "layer"}
-        onClick={() => setActiveLayer(1)}
+        className={layerVisibility.heatmap ? "active" : "layer"}
+        onClick={() =>
+          setLayerVsisibility((p) => ({
+            heatmap: !p.heatmap
+          }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
           <g>
@@ -202,8 +208,11 @@ function ButtonLayer({ activeLayer, setActiveLayer }) {
 
       <button
         title="Density Area"
-        className={activeLayer === 2 ? "active" : "layer"}
-        onClick={() => setActiveLayer(2)}
+        className={layerVisibility.grid ? "active" : "layer"}
+        onClick={() =>
+          setLayerVsisibility((p) => ({
+            grid: !p.grid
+          }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -229,8 +238,11 @@ function ButtonLayer({ activeLayer, setActiveLayer }) {
 
       <button
         title="Stationary Point Detection"
-        className={activeLayer === 3 ? "active" : "layer"}
-        onClick={() => setActiveLayer(3)}
+        className={layerVisibility.scatter ? "active" : "layer"}
+        onClick={() =>
+          setLayerVsisibility((p) => ({
+            scatter: !p.scatter
+          }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
           <path

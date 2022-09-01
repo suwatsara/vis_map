@@ -4,10 +4,12 @@ import ReactDOM from "react-dom";
 import './index.css'
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import About from './components/pages/About';
+import { RecoilRoot } from "recoil";
 import GeometryEditor from './components/pages/GeometryEditor'
 
 ReactDOM.render(
   <React.StrictMode>
+    <RecoilRoot>
     <HashRouter>
       {/* <Header /> */}
       <Routes>
@@ -20,7 +22,7 @@ ReactDOM.render(
     </HashRouter>
 
 
-
+    </RecoilRoot>
 
   </React.StrictMode>,
   document.getElementById("root")

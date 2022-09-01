@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Map, Marker } from "react-map-gl";
+import { useRecoilState, useRecoilValue } from 'recoil';
 import DeckGL from "@deck.gl/react";
 import "./About.css";
 import { GeoJsonLayer, ScatterplotLayer } from "@deck.gl/layers";
 import { EditableGeoJsonLayer, SelectionLayer } from "@nebula.gl/layers";
 import { DrawCircleFromCenterMode, DrawRectangleMode } from "react-map-gl-draw";
-import { mapboxAccessToken, INITIAL_VIEW_STATE, MAP_STYLE } from "./utils";
+import { mapboxAccessToken, viewportState, MAP_STYLE } from "./utils";
 import CropDinIcon from "@mui/icons-material/CropDin";
 import PolylineIcon from "@mui/icons-material/Polyline";
 import "./GeometryEditor.css";
@@ -14,7 +15,7 @@ import "./GeometryEditor.css";
 function GeometryEditor({ data }) {
   const [selected, setSelected] = useState([]);
   const radius = 5;
-
+  const viewport = useRecoilValue(viewportState);
   const [features, setFeatures] = useState({
     type: "FeatureCollection",
     features: [],
@@ -71,7 +72,7 @@ function GeometryEditor({ data }) {
     <div className="map">
       {data && <p> Selected area represents {selected.length} GPS points </p>}
       <DeckGL
-        initialViewState={INITIAL_VIEW_STATE}
+        initialViewState={viewport}
         controller={{
           doubleClickZoom: false,
         }}

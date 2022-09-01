@@ -170,6 +170,7 @@ button.delete {
 }
 h3{
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 button.ShowData {
     height: 32px;

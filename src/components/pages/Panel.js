@@ -3,7 +3,7 @@ import "./Panel.css";
 import * as d3 from "d3";
 const formatDate = d3.timeFormat("%B %d, %Y");
 
-function Panel({ data, selected, activeLayer }) {
+function Panel({ data, selected, layerVisibility }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOnClick = () => {
@@ -12,7 +12,7 @@ function Panel({ data, selected, activeLayer }) {
 
   return (
     <div
-      className={activeLayer === 3 ? "PanelContainer-top" : "PanelContainer"}
+      className={layerVisibility.scatter ? "PanelContainer-top" : "PanelContainer"}
     >
       <div className="Title">
         {data[0] && (
@@ -21,15 +21,14 @@ function Panel({ data, selected, activeLayer }) {
         <button onClick={handleOnClick} className="PanelExpander">
           i
         </button>
-        {/* <div className='PanelExpander'>✕</div> */}
       </div>
       {isOpen && (
         <>
           <div className="PanelContent">
-            <div className={activeLayer === 3 ? "none" : "stat"}>
+            <div className={layerVisibility.scatter ? "none" : "stat"}>
               Total Point
               <b>{data.length}</b>
-              {activeLayer === 1 && (
+              {layerVisibility.heatmap && (
                 <>
                   <div className="gradientScale">
                     <div className="gr1" />
@@ -46,7 +45,7 @@ function Panel({ data, selected, activeLayer }) {
                 </>
               )}
             </div>
-            {activeLayer === 3 && (
+            {layerVisibility.scatter && (
               <div className="stat">
                 {" "}
                 Selected area represents
