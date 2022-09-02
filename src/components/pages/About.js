@@ -72,6 +72,7 @@ function About() {
     setList([]);
     setFile(null);
     setSelected([]);
+    setIsShow(!isShow);
   };
 
   const handleOnChange = (e) => {
@@ -191,10 +192,10 @@ function About() {
       longitude: arrLng,
       latitude: arrLat,
       zoom: 8,
-      maxZoom: 15,
+      // maxZoom: 15,
       pitch: 12,
       bearing: 0,
-      transitionDuration: 1200,
+      transitionDuration: 2500,
       transitionInterpolator: new FlyToInterpolator()
     }
 

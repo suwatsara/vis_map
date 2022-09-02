@@ -110,7 +110,7 @@ export default function RangeInput({ min, max, value, animationSpeed, onChange, 
       <SliderInput
         min={min}
         max={max}
-        step={3600000}
+        step={3600000} //by hour
         value={value}
         // marks={true}
         onChange={debounceChangeHandler}

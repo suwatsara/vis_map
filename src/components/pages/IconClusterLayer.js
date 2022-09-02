@@ -120,14 +120,12 @@ export default class IconClusterLayer extends CompositeLayer {
 
   renderLayers() {
     const { data } = this.state;
-    const { iconAtlas, iconMapping, sizeScale } = this.props;
+    const { sizeScale } = this.props;
 
     return new IconLayer(
         this.getSubLayerProps({
           id: 'icon',
           data,
-          // iconAtlas,
-          // iconMapping,
           sizeScale,
           getPosition: d => d.geometry.coordinates,
           // getIcon: d => getIconName(d.properties.cluster ? d.properties.point_count : 1),

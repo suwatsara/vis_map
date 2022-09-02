@@ -6,8 +6,6 @@ import { HeatmapLayer, GridLayer } from "@deck.gl/aggregation-layers";
 import { MapView } from "@deck.gl/core";
 import { EditableGeoJsonLayer, SelectionLayer } from "@nebula.gl/layers";
 import { IconLayer, ScatterplotLayer, ArcLayer } from "@deck.gl/layers";
-import icon from "../../data/location-icon-atlas.png";
-import file from "../../data/location-icon-mapping.json";
 import IconClusterLayer from "./IconClusterLayer";
 import { MapStylePicker } from "../controls";
 import "./About.css";
@@ -20,7 +18,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import "./GeometryEditor.css";
 import Panel from "./Panel";
 import ButtonLayer from "./ButtonLayer";
-import Heatmap from "./Heatmap";
 
 const MAP_VIEW = new MapView({ repeat: true });
 
@@ -89,15 +86,11 @@ function formatLabel(t) {
     return `${day}, ${+ (hour % 12 || 12) + " " + "PM"}`;
   }
   return `${day}, ${(hour % 12 || 12) + " " + "AM"}`;
-  // return `${date.toLocaleDateString('en-US', {
-  //   weekday: 'short',
-  // })}/${date.getHours()}`;
+
 }
 
 export default function Cluster({
   data,
-  iconMapping = file,
-  iconAtlas = icon,
   showCluster = true,
   viewport,
 }) {
@@ -150,14 +143,10 @@ export default function Cluster({
     setState(style);
   }
 
-
-
   const layerProps = {
     data: filteredData,
     pickable: true,
     getPosition: (d) => [d.longitude, d.latitude],
-    iconAtlas,
-    iconMapping,
     getFilterValue: (d) => d.timestamp,
     visible: layerVisibility.cluster,
     onHover: !hoverInfo.objects && setHoverInfo,
@@ -198,20 +187,7 @@ export default function Cluster({
     getPosition: (d) => [d.longitude, d.latitude],
     getFilterValue: (d) => d.timestamp,
     visible: layerVisibility.grid
-    // onHover: info => setGridInfo(info),
   });
-
-  // const layer3 = new ArcLayer({
-  //   id: 'arc-layer',
-  //   data:filteredData,
-  //   pickable: true,
-  //   getWidth: 3,
-  //   getSourcePosition: d => [d.longitude, d.latitude],
-  //   getTargetPosition: d =>  [100.53489956089857, 13.724923205611995],
-  //   getTargetColor: d => [255,255,204],
-  //   getSourceColor: d=> [161,218,180]
-
-  // });
 
   const layer4 = [
     new ScatterplotLayer({
@@ -247,19 +223,9 @@ export default function Cluster({
     }),
   ];
 
-  // const [activeLayer, setActiveLayer] = useState();
+
   const layers = [layer1, layer2, layer3, layer4];
 
-  // console.log(layerVisibility)
-
-  // const getLayers = () => {
-  //   if (activeLayer === 0) return layer1;
-  //   if (activeLayer === 1) return layer2;
-  //   if (activeLayer === 2) return layer3;
-  //   if (activeLayer === 3) return layer4;
-  // };
-
-  
   return (
     <div className="map">
       <div>
