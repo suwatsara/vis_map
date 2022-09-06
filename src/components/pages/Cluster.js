@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { Map } from "react-map-gl";
+import Map from "react-map-gl";
+import * as d3 from "d3";
 import { useRecoilState, useRecoilValue } from 'recoil';
 import DeckGL from "@deck.gl/react";
-import { HeatmapLayer, GridLayer } from "@deck.gl/aggregation-layers";
+import { HeatmapLayer, GridLayer, HexagonLayer } from "@deck.gl/aggregation-layers";
 import { MapView } from "@deck.gl/core";
-import { EditableGeoJsonLayer, SelectionLayer } from "@nebula.gl/layers";
+import { SelectionLayer } from "@nebula.gl/layers";
 import { IconLayer, ScatterplotLayer, ArcLayer } from "@deck.gl/layers";
 import IconClusterLayer from "./IconClusterLayer";
 import { MapStylePicker } from "../controls";
@@ -19,8 +20,7 @@ import "./GeometryEditor.css";
 import Panel from "./Panel";
 import ButtonLayer from "./ButtonLayer";
 
-const MAP_VIEW = new MapView({ repeat: true });
-
+const MAP_VIEW = new MapView({ id: 'base-map', controller: true, repeat: true});
 
 function renderTooltip(info) {
   const { object, x, y } = info;
@@ -30,7 +30,7 @@ function renderTooltip(info) {
 
   return object.cluster ? (
     <div className="tooltip" style={{ left: x, top: y }}>
-      {object.point_count_abbreviated} records
+      {object.point_count_abbreviated} points
     </div>
   ) : (
     <div className="tooltip" style={{ left: x, top: y }}>
@@ -80,12 +80,14 @@ function getTimeRange(data) {
 
 function formatLabel(t) {
   const date = new Date(t);
-  const day = date.getDate();
-  const hour = date.getHours();
-  if (hour % 24 >= 12) {
-    return `${day}, ${+ (hour % 12 || 12) + " " + "PM"}`;
-  }
-  return `${day}, ${(hour % 12 || 12) + " " + "AM"}`;
+  const formatDate = d3.timeFormat("%d/%m/%y, %I %p");
+  // if (hour % 24 >= 12) {
+  //   return `${day}, ${+ (hour % 12 || 12) + " " + "PM"}`;
+  // }
+  return formatDate(date)
+
+
+
 
 }
 
@@ -95,9 +97,11 @@ export default function Cluster({
   viewport,
 }) {
 
+
   const [layerVisibility, setLayerVsisibility] = useRecoilState(layerState);
   const [filter, setFilter] = useState(null);
   const timeRange = useMemo(() => getTimeRange(data), [data]);
+
   const filterValue = filter || timeRange;
   let filteredData = data.filter(
     (d) => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]
@@ -109,6 +113,8 @@ export default function Cluster({
   let filteredSelected = selected.filter(
     (d) => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]
   );
+
+  const getTooltip = ({ object }) => object && `${object.position.join(", ")}\ncount: ${object.count}`;
 
   const valid = data[0] && new Date(data[0].timestamp).getTime() > 0;
 
@@ -126,9 +132,6 @@ export default function Cluster({
     visible: layerVisibility.scatter,
   });
 
-  const hideTooltip = () => {
-    setHoverInfo({});
-  };
   const expandTooltip = (info) => {
     if (info.picked && showCluster) {
       setHoverInfo(info);
@@ -155,26 +158,30 @@ export default function Cluster({
   const layer1 = showCluster
     ? new IconClusterLayer({ ...layerProps, id: "icon-cluster", sizeScale: 40 })
     : new IconLayer({
-        ...layerProps,
-        id: "icon",
-        getIcon: (d) => "marker",
-        sizeUnits: "meters",
-        sizeScale: 35,
-        sizeMinPixels: 6,
-      });
+      ...layerProps,
+      id: "icon",
+      getIcon: (d) => "marker",
+      sizeUnits: "meters",
+      sizeScale: 40,
+      sizeMinPixels: 5,
+    });
 
-  const layer2 = new HeatmapLayer({
+  const layer2 = new HexagonLayer({
     id: "heatmp-layer",
     data: filteredData,
     colorRange,
+    getColorWeight: point => 1,
+    colorAggregation: 'SUM',
+    // colorScaleType: 'quantile',
     getPosition: (d) => [d.longitude, d.latitude],
     // getWeight: (d) => d.speed,
-    intensity: 1,
-    threshold: 0.05,
+    // intensity: 1,
+    // threshold: 0.05,
     getFilterValue: (d) => d.timestamp,
-    debounceTimeout: 1000,
+    // debounceTimeout: 1000,
     visible: layerVisibility.heatmap,
-    radiusPixels: 35,
+    pickable: true,
+    radius: 120,
   });
 
   const layer3 = new GridLayer({
@@ -182,8 +189,12 @@ export default function Cluster({
     data: filteredData,
     pickable: true,
     extruded: true,
+    colorRange,
+    getColorWeight: point => 1,
+    colorAggregation: 'SUM',
+    // colorScaleType: 'quantile',
     cellSize: 120,
-    elevationScale: 4,
+    elevationScale: 5,
     getPosition: (d) => [d.longitude, d.latitude],
     getFilterValue: (d) => d.timestamp,
     visible: layerVisibility.grid
@@ -210,9 +221,9 @@ export default function Cluster({
         for (const obj of pickingInfos) {
           newObjs.push(obj.object);
         }
-          setSelected(newObjs);
+        setSelected(newObjs);
       },
-      
+
       layerIds: ["scatter-plot-4"],
       getTentativeFillColor: () => [255, 0, 255, 100],
       getTentativeLineColor: () => [0, 0, 255, 255],
@@ -225,6 +236,7 @@ export default function Cluster({
 
 
   const layers = [layer1, layer2, layer3, layer4];
+
 
   return (
     <div className="map">
@@ -261,7 +273,7 @@ export default function Cluster({
             min={timeRange[0]}
             max={timeRange[1]}
             value={filterValue}
-            animationSpeed={ layerVisibility.heatmap ? 1200000 : 70000}
+            animationSpeed={layerVisibility.heatmap ? 1200000 : 70000}
             formatLabel={formatLabel}
             onChange={setFilter}
           />
@@ -274,20 +286,23 @@ export default function Cluster({
           controller={{
             doubleClickZoom: false,
           }}
-          
           onClick={expandTooltip}
           getTooltip={
-            layerVisibility.grid &&
-            (({ object }) =>
-              object &&
-              `${object.position.join(", ")}\ncount: ${object.count}`)
+            layerVisibility.grid ? getTooltip :
+              layerVisibility.heatmap && (({ object }) =>
+                object &&
+                `${object.position.join(", ")}\ncount: ${object.colorValue}`
+              )
           }
         >
+
           <Map
             reuseMaps
             mapStyle={style}
             mapboxAccessToken={mapboxAccessToken}
-          />
+          >
+
+          </Map>
           {renderTooltip(hoverInfo)}
         </DeckGL>
       </div>

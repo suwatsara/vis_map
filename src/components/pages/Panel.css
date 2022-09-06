@@ -4,7 +4,7 @@
     top: 0px;
     z-index: 1;
     left: 0px;
-    width:max-content;
+    width:175px;
     background: rgb(255, 255, 255);
     box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
     margin: 10px;
@@ -136,4 +136,10 @@
   
   .gradientMarkerRight {
     float: right;
+  }
+
+
+  p{
+    text-transform: none;
+    font-size: 9px;
   }

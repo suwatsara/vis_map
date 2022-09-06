@@ -10,10 +10,10 @@ export const viewportState = atom({
 		latitude: 13.727899,
 		zoom: 10,
 		maxZoom: 15,
-		pitch: 12,
 		bearing: 0
 	}
 });
+
 
 export const MAP_STYLE = 'mapbox://styles/mapbox/light-v9';
 

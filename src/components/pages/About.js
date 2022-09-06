@@ -138,14 +138,18 @@ function About() {
     const lng = list.find((el) => el.name === y.value);
     const time = list.find((el) => el.name === z.value);
 
+  
+
     let newTime = [];
     for (var i = 0; i < time.values.length; i++) {
-      if (isNaN(time.values[i])) {
-        newTime.push(new Date(time.values[i]).getTime());
-      } else if (time.values[i] > 1000000000000) {
-        newTime.push(new Date(time.values[i]).getTime());
+      const d = Number(time.values[i])
+      if (isNaN(d)) {
+        const t = new Date(time.values[i])
+        newTime.push(t.getTime());
+      } else if (d > 1000000000000) {
+        newTime.push(new Date(d).getTime());
       } else {
-        newTime.push(new Date(time.values[i] * 1000).getTime());
+        newTime.push(new Date(d * 1000).getTime());
       }
     }
 
@@ -191,10 +195,9 @@ function About() {
     const flyto = {
       longitude: arrLng,
       latitude: arrLat,
-      zoom: 8,
-      // maxZoom: 15,
-      pitch: 12,
-      bearing: 0,
+      zoom: 10,
+      maxZoom: 15,
+      // pitch: 25,
       transitionDuration: 2500,
       transitionInterpolator: new FlyToInterpolator()
     }
@@ -413,7 +416,7 @@ function About() {
       </Modal>
 
       <div className="button-wrapper">
-        <Cluster data={selected} viewport={viewport} />
+        <Cluster data={selected} viewport={viewport}/>
         {/* <GeometryEditor data={obj} />  */}
       </div>
     </div>

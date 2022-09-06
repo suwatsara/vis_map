@@ -51,9 +51,9 @@ const SliderInput = styled(Slider)({
       fontSize: 8,
       background: 'unset',
       padding: 0,
-      width: 40,
+      width: 75,
       height: 20,
-      backgroundColor: '#9a6fb0',
+      backgroundColor: '#3182bd',
     },
   },
 
