@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import './controls.css'
 
 const MAPBOX_DEFAULT_MAPSTYLES = [
     { label: 'Streets', value: 'mapbox://styles/mapbox/streets-v10' },
@@ -14,7 +13,6 @@ export function MapStylePicker({ currentStyle, onStyleChange }) {
     return (
         <SelectItem
             className="map-style-picker"
-            // style={mapStylePicker}
             value={currentStyle}
             onChange={e => onStyleChange(e.target.value)}
         >

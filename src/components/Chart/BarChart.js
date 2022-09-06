@@ -66,7 +66,7 @@ function Bars({ data, height, scaleX, scaleY }) {
   );
 }
 
-function Chart({ data }) {
+function BarChart({ data }) {
   const newdata = data.map((row) => ({
     timestamp: new Date(row.timestamp).getTime(),
     latitude: row.latitude,
@@ -132,4 +132,4 @@ function Chart({ data }) {
   );
 }
 
-export default Chart;
+export default BarChart;

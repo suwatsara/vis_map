@@ -1,12 +1,10 @@
 import React from 'react'
-import Cluster from './components/pages/Cluster'
-import About from './components/pages/About';
 import './index.css'
-
+import ControlPanel from "./components/ControlPanel/ControlPanel";
 function app() {
   return (
-	<div className='App'>
-		<About />
+	<div>
+		<ControlPanel />
 	</div>
   )
 }

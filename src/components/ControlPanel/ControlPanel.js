@@ -1,14 +1,13 @@
 import React, { useState, useRef, useCallback } from "react";
 import Papa from "papaparse";
 import LoadingButton from "@mui/lab/LoadingButton";
-import "./About.css";
-import Cluster from "./Cluster";
-import ShowTable from "./Table";
+import "./ControlPanel.css";
+import ShowTable from "../ControlPanel/Table";
 import Modal from "react-modal";
-import { FlyToInterpolator } from 'deck.gl';
-import { viewportState } from "./utils";
-import { useRecoilState } from 'recoil';
-
+import { FlyToInterpolator } from "deck.gl";
+import { viewportState } from "../pages/utils";
+import { useRecoilState } from "recoil";
+import Layers from "../map/Layers";
 
 const customStyles = {
   overlay: {
@@ -34,7 +33,7 @@ const customStyles = {
 
 Modal.setAppElement(document.getElementById("root"));
 
-function About() {
+function ControlPanel() {
   const [file, setFile] = useState("");
   const [list, setList] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -49,7 +48,6 @@ function About() {
   const handleOnClick = () => {
     setIsShow(!isShow);
   };
-
 
   const inputRef = useRef(null);
 
@@ -76,11 +74,8 @@ function About() {
   };
 
   const handleOnChange = (e) => {
-
     setFile(e.target.files[0]);
-
   };
-
 
   const handleSubmit = (event) => {
     setList([]);
@@ -138,13 +133,11 @@ function About() {
     const lng = list.find((el) => el.name === y.value);
     const time = list.find((el) => el.name === z.value);
 
-  
-
     let newTime = [];
     for (var i = 0; i < time.values.length; i++) {
-      const d = Number(time.values[i])
+      const d = Number(time.values[i]);
       if (isNaN(d)) {
-        const t = new Date(time.values[i])
+        const t = new Date(time.values[i]);
         newTime.push(t.getTime());
       } else if (d > 1000000000000) {
         newTime.push(new Date(d).getTime());
@@ -178,7 +171,7 @@ function About() {
       }
     }
 
-    let copiedArray = []
+    let copiedArray = [];
     for (var i = 0; i < newLng.length; i++) {
       copiedArray.push({
         latitude: newLat[i],
@@ -186,11 +179,10 @@ function About() {
         timestamp: newTime[i],
       });
       setSelected(copiedArray);
-
     }
 
-    const arrLat = newLat.reduce((a, b) => a + b, 0) / newLat.length
-    const arrLng = newLng.reduce((a, b) => a + b, 0) / newLng.length
+    const arrLat = newLat.reduce((a, b) => a + b, 0) / newLat.length;
+    const arrLng = newLng.reduce((a, b) => a + b, 0) / newLng.length;
 
     const flyto = {
       longitude: arrLng,
@@ -199,14 +191,13 @@ function About() {
       maxZoom: 15,
       // pitch: 25,
       transitionDuration: 2500,
-      transitionInterpolator: new FlyToInterpolator()
-    }
+      transitionInterpolator: new FlyToInterpolator(),
+    };
 
-    setViewport(flyto)
+    setViewport(flyto);
     setIsUpload(false);
     setIsShowData(true);
   };
-
 
   // const values = Object.values(selected);
   // console.log(selected);
@@ -227,14 +218,10 @@ function About() {
   // }));
 
   const lat_result = list.find(
-    ({ name }) =>
-      name.includes("lat") ||
-      name.includes("Lat")
+    ({ name }) => name.includes("lat") || name.includes("Lat")
   );
   let lat_res = list.some(
-    (code) =>
-      code.name.includes("lat") ||
-      code.name.includes("Lat")
+    (code) => code.name.includes("lat") || code.name.includes("Lat")
   );
 
   const lat = lat_result && lat_result.name;
@@ -257,7 +244,7 @@ function About() {
   const lng = lng_result && lng_result.name;
 
   return (
-    <div>
+    <>
       <div className="ControlPanel">
         {loading && (
           <button onClick={handleOnClick} className="expander">
@@ -416,11 +403,11 @@ function About() {
       </Modal>
 
       <div className="button-wrapper">
-        <Cluster data={selected} viewport={viewport}/>
+        <Layers data={selected} viewport={viewport} />
         {/* <GeometryEditor data={obj} />  */}
       </div>
-    </div>
+    </>
   );
 }
 
-export default About;
+export default ControlPanel;

@@ -2,7 +2,8 @@ import React from "react";
 import App from './app'
 import './index.css'
 import ReactDOM from "react-dom";
-import About from './components/pages/About';
+import ControlPanel from "./components/ControlPanel/ControlPanel";
+import Map from './components/map/Map'
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from "recoil";
 
@@ -12,7 +13,7 @@ ReactDOM.render(
     <HashRouter>
       {/* <Header /> */}
       <Routes>
-        <Route path="/" element={<About />}></Route>
+        <Route path="/" element={<App />}></Route>
       </Routes>
 
     </HashRouter>

@@ -6,17 +6,8 @@
 }
 
 body {
-
-	box-sizing: border-box;
 	height: 100%;
 	margin: 0;
-}
-
-.App {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 80px;
 }
 
 .tooltip {

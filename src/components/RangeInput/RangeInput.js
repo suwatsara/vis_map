@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { styled, withStyles } from '@mui/styles';
 import Slider from '@mui/material/Slider';
-import '../controls.css'
 import Button from '@mui/material/IconButton';
 import PlayIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -122,4 +121,3 @@ export default function RangeInput({ min, max, value, animationSpeed, onChange, 
 
   );
 }
-
