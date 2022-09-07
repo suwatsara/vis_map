@@ -10,7 +10,8 @@ export const viewportState = atom({
 		latitude: 13.727899,
 		zoom: 10,
 		maxZoom: 15,
-		bearing: 0
+		bearing: 0,
+		pitch:0
 	}
 });
 

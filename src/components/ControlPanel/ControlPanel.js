@@ -70,7 +70,7 @@ function ControlPanel() {
     setList([]);
     setFile(null);
     setSelected([]);
-    setIsShow(!isShow);
+    setIsShow(false);
   };
 
   const handleOnChange = (e) => {
@@ -184,20 +184,23 @@ function ControlPanel() {
     const arrLat = newLat.reduce((a, b) => a + b, 0) / newLat.length;
     const arrLng = newLng.reduce((a, b) => a + b, 0) / newLng.length;
 
-    const flyto = {
+    const flyto = ({
       longitude: arrLng,
       latitude: arrLat,
       zoom: 10,
       maxZoom: 15,
-      // pitch: 25,
+      pitch: 5,
       transitionDuration: 2500,
       transitionInterpolator: new FlyToInterpolator(),
-    };
+    });
 
     setViewport(flyto);
+
+
     setIsUpload(false);
     setIsShowData(true);
   };
+
 
   // const values = Object.values(selected);
   // console.log(selected);
@@ -403,7 +406,7 @@ function ControlPanel() {
       </Modal>
 
       <div className="button-wrapper">
-        <Layers data={selected} viewport={viewport} />
+        <Layers data={selected} viewstate={viewport} />
         {/* <GeometryEditor data={obj} />  */}
       </div>
     </>

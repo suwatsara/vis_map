@@ -6,7 +6,7 @@ import {
 } from "react-map-gl";
 import DeckGL from "@deck.gl/react";
 import { MapView } from "@deck.gl/core";
-import { MapStylePicker } from "./MapStylePicker";
+import { MapStylePicker } from "../ControlPanel/MapStylePicker";
 import { mapboxAccessToken, MAP_STYLE } from "../pages/utils";
 
 function getTooltip({ object }) {
@@ -36,9 +36,9 @@ const Map = (props) => {
     controller: true,
     repeat: true,
   });
+
   const [style, setState] = useState(MAP_STYLE);
-
-
+  const gridview = {...viewport, pitch:55,zoom:12}
   function onStyleChange(style) {
     setState(style);
   }
@@ -64,25 +64,15 @@ const Map = (props) => {
   return (
     <>
       <MapStylePicker onStyleChange={onStyleChange} currentStyle={style} />
-      <div
-        style={{
-          margin: 10,
-          position: "absolute",
-          zIndex: 1,
-          right: 355,
-          top: 10,
-        }}
-      >
-      </div>
       <DeckGL
         ContextProvider={MapContext.Provider}
         layers={layers}
-        initialViewState={viewport}
+        initialViewState={layerVisibility.grid? gridview :viewport}
         controller={true}
         onClick={expandTooltip}
         views={MAP_VIEW}
         getTooltip={
-          !layerVisibility.cluster && !layerVisibility.scatter && getTooltip
+           !layerVisibility.scatter && getTooltip
         }
       >
         <StaticMap
@@ -92,11 +82,10 @@ const Map = (props) => {
         />
         <div
           style={{
-            margin: 10,
             position: "absolute",
             zIndex: 1,
-            right: 355,
-            top: 10,
+            right: 40,
+            bottom: 120,
           }}
         >
           <NavigationControl visualizePitch={true} />

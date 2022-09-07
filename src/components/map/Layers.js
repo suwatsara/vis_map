@@ -11,12 +11,11 @@ import {
 } from "@deck.gl/aggregation-layers";
 import RangeInput from "../RangeInput/RangeInput";
 import { SelectionLayer } from "@nebula.gl/layers";
-import "./GeometryEditor.css";
 import { IconLayer, ScatterplotLayer, ArcLayer } from "@deck.gl/layers";
 import { layerState } from "../pages/utils";
 import Map from "./Map";
 import InfoPanel from "../InfoPanel/InfoPanel";
-import EditPanel from "./EditPanel";
+import EditPanel from "../ControlPanel/EditPanel";
 
 function getTimeRange(data) {
   if (!data) {
@@ -48,11 +47,12 @@ function getTimeRange(data) {
 }
 
 export const colorRange = [
-  [254, 229, 217],
-  [252, 174, 145],
-  [251, 106, 74],
-  [222, 45, 38],
-  [165, 15, 21],
+  [254,229,217],
+  [252,187,161],
+  [252,146,114],
+  [251,106,74],
+  [222,45,38],
+  [165,15,21]
 ];
 
 function formatLabel(t) {
@@ -64,11 +64,11 @@ function formatLabel(t) {
   return formatDate(date);
 }
 
-function Layers({ data, showCluster = true, viewport}) {
+function Layers({ data, showCluster = true, viewstate }) {
+
   const [layerVisibility, setLayerVsisibility] = useRecoilState(layerState);
   const [filter, setFilter] = useState(null);
   const timeRange = useMemo(() => getTimeRange(data), [data]);
-
   const filterValue = filter || timeRange;
   let filteredData = data.filter(
     (d) => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]
@@ -77,6 +77,7 @@ function Layers({ data, showCluster = true, viewport}) {
   const [selected, setSelected] = useState([]);
   const [mode, setMode] = useState(null);
   const radius = 5;
+
   let filteredSelected = selected.filter(
     (d) => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]
   );
@@ -122,44 +123,40 @@ function Layers({ data, showCluster = true, viewport}) {
     onHover: !hoverInfo.objects && setHoverInfo,
   };
 
-  const layer1 = showCluster
-    ? new IconClusterLayer({ ...layerProps, id: "icon-cluster", sizeScale: 40 })
-    : new IconLayer({
-        ...layerProps,
-        id: "icon",
-        getIcon: (d) => "marker",
-        sizeUnits: "meters",
-        sizeScale: 40,
-        sizeMinPixels: 5,
-      });
+  // const layer1 = showCluster
+  //   ? new IconClusterLayer({ ...layerProps, id: "icon-cluster", sizeScale: 40 })
+  //   : new IconLayer({
+  //       ...layerProps,
+  //       id: "icon",
+  //       getIcon: (d) => "marker",
+  //       sizeUnits: "meters",
+  //       sizeScale: 40,
+  //       sizeMinPixels: 5,
+  //     });
 
-  const layer2 = new HexagonLayer({
+  const layer2 = new HeatmapLayer({
     id: "heatmp-layer",
     data: filteredData,
     colorRange,
-    getColorWeight: (point) => 1,
-    colorAggregation: "SUM",
-    // colorScaleType: 'quantile',
     getPosition: (d) => [d.longitude, d.latitude],
-    // getWeight: (d) => d.speed,
-    // intensity: 1,
-    // threshold: 0.05,
     getFilterValue: (d) => d.timestamp,
-    // debounceTimeout: 1000,
+    debounceTimeout: 1000,
     pickable: true,
+    getWeight: 1,
+    // coverage: 1,
     // extruded: true,
-    radius: 80,
-    getColorValue: (points) => {
-      if (points.length > max_points) {
-        max_points = points.length;
-      }
-      return points.length;
-    },
-    onSetColorDomain: (ecol) => {
-      color_domain = ecol;
-      setMinheatvalue(ecol[0]);
-      setMaxheatvalue(ecol[1]);
-    },
+    // radius: 80,
+    // getColorValue: (points) => {
+    //   if (points.length > max_points) {
+    //     max_points = points.length;
+    //   }
+    //   return points.length;
+    // },
+    // onSetColorDomain: (ecol) => {
+    //   color_domain = ecol;
+    //   setMinheatvalue(ecol[0]);
+    //   setMaxheatvalue(ecol[1]);
+    // },
     visible: layerVisibility.heatmap,
   });
 
@@ -168,15 +165,19 @@ function Layers({ data, showCluster = true, viewport}) {
     data: filteredData,
     pickable: true,
     extruded: true,
+    coverage: 1,
     colorRange,
+    elevationScale: 100,
+    getElevation: points => points.length * 50,
     getColorWeight: (point) => 1,
     colorAggregation: "SUM",
-    // colorScaleType: 'quantile',
-    cellSize: 130,
+    colorScaleType: 'quantize',
+    cellSize: 200,
     elevationScale: 4,
     getColorValue: (points) => {
       if (points.length > max_points) {
         max_points = points.length;
+
       }
       return points.length;
     },
@@ -188,6 +189,37 @@ function Layers({ data, showCluster = true, viewport}) {
     getPosition: (d) => [d.longitude, d.latitude],
     getFilterValue: (d) => d.timestamp,
     visible: layerVisibility.grid,
+  });
+
+  const layer1 = new GridLayer({
+    id: "grid",
+    data: filteredData,
+    pickable: true,
+    // extruded: true,
+    coverage: 1,
+    colorScaleType: 'quantile',
+    colorRange,
+    getColorValue: points => points.length,
+    colorAggregation: "SUM",
+    // colorScaleType: 'ordinal',
+    cellSize: 1000,
+    highlightColor: [0, 0, 128, 128],
+    autoHighlight:true,
+    elevationScale: 4,
+    getPosition: (d) => [d.longitude, d.latitude],
+    getFilterValue: (d) => d.timestamp,
+    getColorValue: (points) => {
+      if (points.length > max_points) {
+        max_points = points.length;
+      }
+      return points.length;
+    },
+    onSetColorDomain: (ecol) => {
+      color_domain = ecol;
+      setMinheatvalue(ecol[0]);
+      setMaxheatvalue(max_points);
+    },
+    visible: layerVisibility.cluster,
   });
 
   const layer4 = [
@@ -245,19 +277,19 @@ function Layers({ data, showCluster = true, viewport}) {
       <BarChart data={data} />
 
       {valid && (
-        <RangeInput
-          min={timeRange[0]}
-          max={timeRange[1]}
-          value={filterValue}
-          animationSpeed={layerVisibility.heatmap ? 1200000 : 70000}
-          formatLabel={formatLabel}
-          onChange={setFilter}
-        />
+      <RangeInput
+        min={timeRange[0]}
+        max={timeRange[1]}
+        value={filterValue}
+        animationSpeed={60*30*1000}
+        formatLabel={formatLabel}
+        onChange={setFilter}
+      />
       )}
 
       <Map
         layers={layers}
-        viewport={viewport}
+        viewport={viewstate}
         info={hoverInfo}
         layerVisibility={layerVisibility}
         expandTooltip={expandTooltip}

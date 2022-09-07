@@ -7,8 +7,8 @@ function ButtonLayer({ setLayerVsisibility, layerVisibility }) {
         title="Cluster Layer"
         className={layerVisibility.cluster ? "active" : "layer"}
         onClick={() =>
-          setLayerVsisibility((p) => ({
-            cluster: !p.cluster
+          setLayerVsisibility(({
+            cluster: true
           }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -115,8 +115,8 @@ function ButtonLayer({ setLayerVsisibility, layerVisibility }) {
         title="Heatmap"
         className={layerVisibility.heatmap ? "active" : "layer"}
         onClick={() =>
-          setLayerVsisibility((p) => ({
-            heatmap: !p.heatmap
+          setLayerVsisibility(({
+            heatmap: true
           }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -210,8 +210,8 @@ function ButtonLayer({ setLayerVsisibility, layerVisibility }) {
         title="Density Area"
         className={layerVisibility.grid ? "active" : "layer"}
         onClick={() =>
-          setLayerVsisibility((p) => ({
-            grid: !p.grid
+          setLayerVsisibility(({
+            grid: true
           }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -240,8 +240,8 @@ function ButtonLayer({ setLayerVsisibility, layerVisibility }) {
         title="Stationary Point Detection"
         className={layerVisibility.scatter ? "active" : "layer"}
         onClick={() =>
-          setLayerVsisibility((p) => ({
-            scatter: !p.scatter
+          setLayerVsisibility(({
+            scatter: true
           }))}
       >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">

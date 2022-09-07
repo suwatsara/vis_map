@@ -13,9 +13,8 @@ function InfoPanel(props) {
 
   return (
     <div
-      className={
-        layerVisibility.scatter ? "PanelContainer-top" : "PanelContainer"
-      }
+      className="PanelContainer"
+      
     >
       <div className="Title">
         {data[0] && (
@@ -40,7 +39,7 @@ function InfoPanel(props) {
                 <div className="gr4" />
                 <div className="gr5" />
               </div>
-              {!layerVisibility.cluster && !layerVisibility.scatter && (
+              {!layerVisibility.scatter && (
                 <>
                   <div className="gradientMarkers">
                     <div className="gradientMarkerLeft">min: {min}</div>
@@ -49,7 +48,7 @@ function InfoPanel(props) {
                   </div>
                 </>
               )}
-              {/* <p>Hold left mouse</p> */}
+              <p> </p>
               {/* </>
           )} */}
             </div>

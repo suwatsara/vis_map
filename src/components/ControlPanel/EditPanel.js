@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CropDinIcon from "@mui/icons-material/CropDin";
 import PolylineIcon from "@mui/icons-material/Polyline";
 import EditIcon from "@mui/icons-material/Edit";
+import "./GeometryEditor.css";
 
 function EditPanel({ setMode }) {
   return (

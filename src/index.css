@@ -24,17 +24,13 @@ body {
 }
 
 .tooltip.interactive {
+
 	pointer-events: all;
 	background: #fcfcfc;
 	color: #444;
 	overflow-y: auto;
 }
 
-
-.MuiSvgIcon-root {
-	justify-content: center;
-	align-items: center;
-}
 
 button.layer {
 	height: 45px;
