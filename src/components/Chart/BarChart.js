@@ -3,25 +3,25 @@ import * as d3 from "d3";
 import "./Chart.css";
 
 const formatMillisecond = d3.timeFormat(".%L"),
-    formatSecond = d3.timeFormat(":%S"),
-    formatMinute = d3.timeFormat("%I:%M"),
-    formatHour = d3.timeFormat("%a %I %p"),
-    formatDay = d3.timeFormat("%a"),
-    formatWeek = d3.timeFormat("%b %d"),
-    formatMonth = d3.timeFormat("%B"),
-    formatYear = d3.timeFormat("%Y");
+  formatSecond = d3.timeFormat(":%S"),
+  formatMinute = d3.timeFormat("%I:%M"),
+  formatHour = d3.timeFormat("%a %I %p"),
+  formatDay = d3.timeFormat("%a"),
+  formatWeek = d3.timeFormat("%b %d"),
+  formatMonth = d3.timeFormat("%B"),
+  formatYear = d3.timeFormat("%Y");
 
-    function multiFormat(date) {
-      return (d3.timeSecond(date) < date ? formatMillisecond
-          : d3.timeMinute(date) < date ? formatSecond
-          : d3.timeHour(date) < date ? formatMinute
-          : d3.timeDay(date) < date ? formatHour
+function multiFormat(date) {
+  return (d3.timeSecond(date) < date ? formatMillisecond
+    : d3.timeMinute(date) < date ? formatSecond
+      : d3.timeHour(date) < date ? formatMinute
+        : d3.timeDay(date) < date ? formatHour
           : d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? formatDay : formatWeek)
-          : d3.timeYear(date) < date ? formatMonth
-          : formatYear)(date);
-    }
+            : d3.timeYear(date) < date ? formatMonth
+              : formatYear)(date);
+}
 
-function AxisBottom({ scale,transform, ticks}) {
+function AxisBottom({ scale, transform, ticks }) {
   const ref = useRef(null);
   useLayoutEffect(() => {
     if (ref.current) {
@@ -88,7 +88,7 @@ function BarChart({ data }) {
 
 
   const margin = { top: 10, right: 5, bottom: 25, left: 40 },
-    width =550 - margin.right - margin.left,
+    width = 550 - margin.right - margin.left,
     height = 90 - margin.top - margin.bottom;
 
   const xScale = d3
@@ -98,10 +98,10 @@ function BarChart({ data }) {
     .padding(0.3);
   const yScale = d3
     .scaleLinear()
-    .domain([(Math.min(...CountHours.map(({count}) => count))), Math.max(...CountHours.map(({ count }) => count))])
+    .domain([(Math.min(...CountHours.map(({ count }) => count))), Math.max(...CountHours.map(({ count }) => count))])
     .range([height, 0]);
 
-    // const ticks = xScale.domain().filter((e,i)=>i%5==0);
+  // const ticks = xScale.domain().filter((e,i)=>i%5==0);
 
   return (
     <>
