@@ -103,7 +103,7 @@ function BarChart({ data }) {
   const yScale = d3
     .scaleLinear()
     .domain([
-      (Math.min(...CountDates.map(({ count }) => count))-100),
+      (Math.min(...CountHours.map(({ count }) => count))-100),
       Math.max(...CountHours.map(({ count }) => count)),
     ])
     .range([height, 0]);
