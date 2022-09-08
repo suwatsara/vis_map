@@ -7,7 +7,7 @@ import {
 import DeckGL from "@deck.gl/react";
 import { MapView } from "@deck.gl/core";
 import { MapStylePicker } from "../ControlPanel/MapStylePicker";
-import { mapboxAccessToken, MAP_STYLE } from "../pages/utils";
+import { mapboxAccessToken, MAP_STYLE } from "../../utils";
 
 function getTooltip({ object }) {
   if (!object) {

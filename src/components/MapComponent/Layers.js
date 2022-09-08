@@ -12,11 +12,10 @@ import {
 import RangeInput from "../RangeInput/RangeInput";
 import { SelectionLayer } from "@nebula.gl/layers";
 import { IconLayer, ScatterplotLayer, ArcLayer } from "@deck.gl/layers";
-import { layerState } from "../pages/utils";
+import { layerState } from "../../utils";
 import Map from "./Map";
 import InfoPanel from "../InfoPanel/InfoPanel";
 import EditPanel from "../ControlPanel/EditPanel";
-import ByDate from "../Chart/ByDate";
 
 function getTimeRange(data) {
   if (!data) {
@@ -48,12 +47,12 @@ function getTimeRange(data) {
 }
 
 export const colorRange = [
-  [254,229,217],
-  [252,187,161],
-  [252,146,114],
-  [251,106,74],
-  [222,45,38],
-  [165,15,21]
+  [254, 229, 217],
+  [252, 187, 161],
+  [252, 146, 114],
+  [251, 106, 74],
+  [222, 45, 38],
+  [165, 15, 21],
 ];
 
 function formatLabel(t) {
@@ -66,7 +65,6 @@ function formatLabel(t) {
 }
 
 function Layers({ data, showCluster = true, viewstate }) {
-
   const [layerVisibility, setLayerVsisibility] = useRecoilState(layerState);
   const [filter, setFilter] = useState(null);
   const timeRange = useMemo(() => getTimeRange(data), [data]);
@@ -101,20 +99,6 @@ function Layers({ data, showCluster = true, viewstate }) {
     }
   };
 
-  const selectedLayer = new ScatterplotLayer({
-    id: "scatter-plot-selected",
-    data: filteredSelected,
-    radiusScale: radius,
-    radiusMinPixels: 2,
-    getPosition: (d) => {
-      return [d.longitude, d.latitude];
-    },
-    getFillColor: [255, 0, 0],
-    getRadius: 4,
-    pickable: true,
-    visible: layerVisibility.scatter,
-  });
-
   const layerProps = {
     data: filteredData,
     pickable: true,
@@ -135,63 +119,18 @@ function Layers({ data, showCluster = true, viewstate }) {
   //       sizeMinPixels: 5,
   //     });
 
-  const layer2 = new HeatmapLayer({
-    id: "heatmp-layer",
-    data: filteredData,
-    colorRange,
-    getPosition: (d) => [d.longitude, d.latitude],
-    getFilterValue: (d) => d.timestamp,
-    debounceTimeout: 1000,
-    pickable: true,
-    getWeight: 1,
-    // coverage: 1,
-    // extruded: true,
-    // radius: 80,
-    // getColorValue: (points) => {
-    //   if (points.length > max_points) {
-    //     max_points = points.length;
-    //   }
-    //   return points.length;
-    // },
-    // onSetColorDomain: (ecol) => {
-    //   color_domain = ecol;
-    //   setMinheatvalue(ecol[0]);
-    //   setMaxheatvalue(ecol[1]);
-    // },
-    visible: layerVisibility.heatmap,
-  });
-
-  const layer3 = new GridLayer({
-    id: "new-grid-layer",
-    data: filteredData,
-    pickable: true,
-    extruded: true,
-    coverage: 1,
-    colorRange,
-    elevationScale: 100,
-    getElevation: points => points.length * 50,
-    getColorWeight: (point) => 1,
-    colorAggregation: "SUM",
-    colorScaleType: 'quantize',
-    cellSize: 200,
-    elevationScale: 4,
-    getColorValue: (points) => {
-      if (points.length > max_points) {
-        max_points = points.length;
-
-      }
-      return points.length;
+  const selectedLayer = new ScatterplotLayer({
+    id: "scatter-plot-selected",
+    data: filteredSelected,
+    radiusScale: radius,
+    radiusMinPixels: 2,
+    getPosition: (d) => {
+      return [d.longitude, d.latitude];
     },
-    onSetColorDomain: (ecol) => {
-      color_domain = ecol;
-      setMingridvalue(ecol[0]);
-      setMaxgridvalue(ecol[1]);
-    },
-    getPosition: (d) => [d.longitude, d.latitude],
-    getFilterValue: (d) => d.timestamp,
-    highlightColor: [247, 234, 49, 255],
-    autoHighlight:true,
-    visible: layerVisibility.grid,
+    getFillColor: [255, 0, 0],
+    getRadius: 4,
+    pickable: true,
+    visible: layerVisibility.scatter,
   });
 
   const layer1 = new GridLayer({
@@ -200,13 +139,13 @@ function Layers({ data, showCluster = true, viewstate }) {
     pickable: true,
     // extruded: true,
     coverage: 1,
-    colorScaleType: 'quantize',
+    colorScaleType: "quantize",
     colorRange,
-    getColorValue: points => points.length,
+    getColorValue: (points) => points.length,
     colorAggregation: "SUM",
     cellSize: 1000,
     highlightColor: [247, 234, 49, 255],
-    autoHighlight:true,
+    autoHighlight: true,
     elevationScale: 4,
     getPosition: (d) => [d.longitude, d.latitude],
     getFilterValue: (d) => d.timestamp,
@@ -222,6 +161,50 @@ function Layers({ data, showCluster = true, viewstate }) {
       setMaxheatvalue(max_points);
     },
     visible: layerVisibility.cluster,
+  });
+
+  const layer2 = new HeatmapLayer({
+    id: "heatmp-layer",
+    data: filteredData,
+    colorRange,
+    getPosition: (d) => [d.longitude, d.latitude],
+    getFilterValue: (d) => d.timestamp,
+    debounceTimeout: 1000,
+    pickable: true,
+    getWeight: 1,
+    visible: layerVisibility.heatmap,
+  });
+
+  const layer3 = new GridLayer({
+    id: "new-grid-layer",
+    data: filteredData,
+    pickable: true,
+    extruded: true,
+    coverage: 1,
+    colorRange,
+    elevationScale: 100,
+    getElevation: (points) => points.length * 50,
+    getColorWeight: (point) => 1,
+    colorAggregation: "SUM",
+    colorScaleType: "quantize",
+    cellSize: 200,
+    elevationScale: 4,
+    getColorValue: (points) => {
+      if (points.length > max_points) {
+        max_points = points.length;
+      }
+      return points.length;
+    },
+    onSetColorDomain: (ecol) => {
+      color_domain = ecol;
+      setMingridvalue(ecol[0]);
+      setMaxgridvalue(ecol[1]);
+    },
+    getPosition: (d) => [d.longitude, d.latitude],
+    getFilterValue: (d) => d.timestamp,
+    highlightColor: [247, 234, 49, 255],
+    autoHighlight: true,
+    visible: layerVisibility.grid,
   });
 
   const layer4 = [
@@ -257,8 +240,6 @@ function Layers({ data, showCluster = true, viewstate }) {
     }),
   ];
   const layers = [layer1, layer2, layer3, layer4];
-  const [isHour, setIsHour] = useState(true);
-
 
   return (
     <div>
@@ -274,33 +255,19 @@ function Layers({ data, showCluster = true, viewstate }) {
         max={layerVisibility.grid ? maxgridValue : maxheatValue}
       />
 
-
       {layerVisibility.scatter && <EditPanel setMode={setMode} />}
 
-      {data[0] && <div
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            left: 20 ,
-            bottom: 145,
-          }}
-        >
-          <button className="hour" onClick={() => setIsHour(true)}> by hour</button>
-          <button className="hour" onClick={() => setIsHour(!isHour)}> by date</button>
-        </div> }
-
-      {isHour ? (<BarChart data={data}/>) : (<ByDate data={data}  /> )}
-
+      {data[0] && ( <BarChart data={data} />)}
 
       {valid && (
-      <RangeInput
-        min={timeRange[0]}
-        max={timeRange[1]}
-        value={filterValue}
-        animationSpeed={60*30*1000}
-        formatLabel={formatLabel}
-        onChange={setFilter}
-      />
+        <RangeInput
+          min={timeRange[0]}
+          max={timeRange[1]}
+          value={filterValue}
+          animationSpeed={60 * 30 * 1000}
+          formatLabel={formatLabel}
+          onChange={setFilter}
+        />
       )}
 
       <Map

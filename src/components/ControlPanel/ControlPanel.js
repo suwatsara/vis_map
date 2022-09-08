@@ -5,9 +5,9 @@ import "./ControlPanel.css";
 import ShowTable from "../ControlPanel/Table";
 import Modal from "react-modal";
 import { FlyToInterpolator } from "deck.gl";
-import { viewportState } from "../pages/utils";
+import { viewportState } from "../../utils";
 import { useRecoilState } from "recoil";
-import Layers from "../map/Layers";
+import Layers from "../MapComponent/Layers";
 
 const customStyles = {
   overlay: {

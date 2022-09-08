@@ -3,7 +3,6 @@ import App from './app'
 import './index.css'
 import ReactDOM from "react-dom";
 import ControlPanel from "./components/ControlPanel/ControlPanel";
-import Map from './components/map/Map'
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from "recoil";
 
