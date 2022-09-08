@@ -16,6 +16,7 @@ import { layerState } from "../pages/utils";
 import Map from "./Map";
 import InfoPanel from "../InfoPanel/InfoPanel";
 import EditPanel from "../ControlPanel/EditPanel";
+import ByDate from "../Chart/ByDate";
 
 function getTimeRange(data) {
   if (!data) {
@@ -188,6 +189,8 @@ function Layers({ data, showCluster = true, viewstate }) {
     },
     getPosition: (d) => [d.longitude, d.latitude],
     getFilterValue: (d) => d.timestamp,
+    highlightColor: [247, 234, 49, 255],
+    autoHighlight:true,
     visible: layerVisibility.grid,
   });
 
@@ -197,13 +200,12 @@ function Layers({ data, showCluster = true, viewstate }) {
     pickable: true,
     // extruded: true,
     coverage: 1,
-    colorScaleType: 'quantile',
+    colorScaleType: 'quantize',
     colorRange,
     getColorValue: points => points.length,
     colorAggregation: "SUM",
-    // colorScaleType: 'ordinal',
     cellSize: 1000,
-    highlightColor: [0, 0, 128, 128],
+    highlightColor: [247, 234, 49, 255],
     autoHighlight:true,
     elevationScale: 4,
     getPosition: (d) => [d.longitude, d.latitude],
@@ -255,6 +257,7 @@ function Layers({ data, showCluster = true, viewstate }) {
     }),
   ];
   const layers = [layer1, layer2, layer3, layer4];
+  const [isHour, setIsHour] = useState(true);
 
 
   return (
@@ -274,7 +277,20 @@ function Layers({ data, showCluster = true, viewstate }) {
 
       {layerVisibility.scatter && <EditPanel setMode={setMode} />}
 
-      <BarChart data={data} />
+      {data[0] && <div
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            left: 20 ,
+            bottom: 145,
+          }}
+        >
+          <button className="hour" onClick={() => setIsHour(true)}> by hour</button>
+          <button className="hour" onClick={() => setIsHour(!isHour)}> by date</button>
+        </div> }
+
+      {isHour ? (<BarChart data={data}/>) : (<ByDate data={data}  /> )}
+
 
       {valid && (
       <RangeInput

@@ -76,3 +76,22 @@ button.layer {
 	height: 45px;
 
 }
+
+button.hour{
+    width: 75px;
+    height: 30px;
+    background-color: #ffffff;
+    border-color: transparent;
+    z-index: 1;
+    cursor: pointer;
+	margin-left: 4px;
+}
+
+button.hour:focus{
+    width: 75px;
+    height: 30px;
+	cursor: pointer;
+	color:white;
+	border: none;
+	background-color: rgba(25, 118, 210, 0.5);
+}

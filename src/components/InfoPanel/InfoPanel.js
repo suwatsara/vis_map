@@ -38,6 +38,7 @@ function InfoPanel(props) {
                 <div className="gr3" />
                 <div className="gr4" />
                 <div className="gr5" />
+                <div className="gr6" />
               </div>
               {!layerVisibility.scatter && (
                 <>

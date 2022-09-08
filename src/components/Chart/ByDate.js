@@ -5,7 +5,7 @@ import "./Chart.css";
 const formatMillisecond = d3.timeFormat(".%L"),
   formatSecond = d3.timeFormat(":%S"),
   formatMinute = d3.timeFormat("%I:%M"),
-  formatHour = d3.timeFormat("%a %I %p"),
+  formatHour = d3.timeFormat("%B %d"),
   formatDay = d3.timeFormat("%a"),
   formatWeek = d3.timeFormat("%b %d"),
   formatMonth = d3.timeFormat("%B"),
@@ -76,20 +76,21 @@ function Bars({ data, height, scaleX, scaleY }) {
   );
 }
 
-function BarChart({ data }) {
-  const ByHour = data.reduce((group, product) => {
+function ByDate({ data }) {
+
+  const ByDate = data.reduce((group, product) => {
     let d = new Date(product["timestamp"]);
-    d = Math.floor(d.getHours());
+    d = Math.floor(d.getDate());
     group[d] = group[d] ?? [];
     group[d].push(product);
     return group;
   }, {});
 
-
-  const CountHours = Object.entries(ByHour).map(([groupname, value]) => ({
+  const CountDates = Object.entries(ByDate).map(([groupname, value]) => ({
     hour: +groupname,
     count: value.length,
   }));
+
 
   const margin = { top: 10, right: 5, bottom: 25, left: 40 },
     width = 550 - margin.right - margin.left,
@@ -97,24 +98,24 @@ function BarChart({ data }) {
 
   const xScale = d3
     .scaleBand()
-    .domain(CountHours.map(({ hour }) => hour))
+    .domain(CountDates.map(({ hour }) => hour))
     .range([0, width])
     .padding(0.3);
   const yScale = d3
     .scaleLinear()
     .domain([
       (Math.min(...CountDates.map(({ count }) => count))-100),
-      Math.max(...CountHours.map(({ count }) => count)),
+      Math.max(...CountDates.map(({ count }) => count)),
     ])
     .range([height, 0]);
 
-  // const ticks = xScale.domain().filter((e,i)=>i%5==0);
+  const ticks = xScale.domain().filter((e,i)=>i%10==0);
 
 
 
   return (
     <>
-      {CountHours[0] && (
+      {CountDates[0] && (
         <div className="charts">
           <svg
             width={width + margin.left + margin.right}
@@ -124,10 +125,11 @@ function BarChart({ data }) {
               <AxisBottom
                 scale={xScale}
                 transform={`translate(0, ${height})`}
+                ticks={ticks}
               />
               <AxisLeft scale={yScale} />
               <Bars
-                data={CountHours}
+                data={CountDates}
                 height={height}
                 scaleX={xScale}
                 scaleY={yScale}
@@ -140,6 +142,4 @@ function BarChart({ data }) {
   );
 }
 
-export default BarChart;
-
-
+export default ByDate;
