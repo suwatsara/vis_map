@@ -42,6 +42,9 @@ const ProcessButton = styled(LoadingButton)({
     border: "none",
     '&:hover': {
       backgroundColor: "#9a6fb0",
+  },
+  '&.MuiLoadingButton-outlined':{
+    color: 'white',
   }
 }
 
@@ -218,25 +221,6 @@ function ControlPanel() {
     setIsShowData(true);
   };
 
-
-  // const values = Object.values(selected);
-  // console.log(selected);
-  // let arr = [];
-
-  // // Map each value from
-  // // {Lat: [array], Lng: [array], TimeStamp: [array]} -> [[Lng, Lat, TimeStamp]]
-  // for (var i = 0; i < values[0].length; i++) {
-  //   const col0 = values.map((d) => d[i]);
-  //   arr.push(col0);
-  // }
-
-  // // [[Lng, Lat, TimeStamp]] -> {[{longitude: , latitude: , timestamp: }]}
-  // const obj = arr.map(([longitude, latitude, timestamp]) => ({
-  //   longitude,
-  //   latitude,
-  //   timestamp,
-  // }));
-
   const lat_result = list.find(
     ({ name }) => name.includes("lat") || name.includes("Lat")
   );
@@ -290,7 +274,7 @@ function ControlPanel() {
                       onClick={handleSubmit}
                       loading={buttonloading}
                       loadingIndicator="Loading…"
-                      variant="outlined"
+                      variant='outlined'
                     >
                       Process
                     </ProcessButton>
@@ -321,7 +305,7 @@ function ControlPanel() {
                       onClick={handleSubmit}
                       loading={buttonloading}
                       loadingIndicator="Loading…"
-                      variant="outlined"
+                      variant='outlined'
                     >
                       Process
                     </ProcessButton>

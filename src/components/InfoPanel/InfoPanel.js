@@ -12,10 +12,7 @@ function InfoPanel(props) {
   };
 
   return (
-    <div
-      className="PanelContainer"
-      
-    >
+    <div className="PanelContainer">
       <div className="Title">
         {data[0] && (
           <div className="panel_title">{formatDate(data[0].timestamp)}</div>
@@ -30,8 +27,6 @@ function InfoPanel(props) {
             <div className={layerVisibility.scatter ? "none" : "stat"}>
               Total Point
               <b>{data.length}</b>
-              {/* {layerVisibility.heatmap && (
-            <> */}
               <div className="gradientScale">
                 <div className="gr1" />
                 <div className="gr2" />
@@ -43,15 +38,22 @@ function InfoPanel(props) {
               {!layerVisibility.scatter && (
                 <>
                   <div className="gradientMarkers">
-                    <div className="gradientMarkerLeft">min: {min}</div>
-                    <div className="gradientMarkerRight">max: {max}</div>
+                    {layerVisibility.heatmap ? (
+                      <>
+                        <div className="gradientMarkerLeft">Fewer</div>
+                        <div className="gradientMarkerRight">More</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="gradientMarkerLeft">min: {min}</div>
+                        <div className="gradientMarkerRight">max: {max}</div>
+                      </>
+                    )}
+
                     <br />
                   </div>
                 </>
               )}
-              <p> </p>
-              {/* </>
-          )} */}
             </div>
             {layerVisibility.scatter && (
               <div className="stat">

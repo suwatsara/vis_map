@@ -5,8 +5,8 @@ import UploadFile from './components/UploadFile/UploadFile';
 function app() {
   return (
 	<div>
-		{/* <ControlPanel /> */}
-		<UploadFile />
+		<ControlPanel />
+		{/* <UploadFile /> */}
 	</div>
   )
 }
