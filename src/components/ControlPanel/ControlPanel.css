@@ -15,6 +15,7 @@
     justify-content: center;
     height: max-content;
     top: 65px;
+
     right: 20px;
     border-radius: 5px;
     background: #ffffff;
@@ -66,9 +67,10 @@ input {
     position: relative;
     z-index: 1;
     width: 100%;
-    color: #1976d2;
+    /* color: #1976d2; */
     height: 36.5px;
-    border:1px solid rgba(25, 118, 210, 0.5);
+    color: #ffffff;
+    background-color: #9a6fb0;
     border-radius: 4px;
     font-size:  0.875rem;
     line-height: 1.75;
@@ -88,7 +90,7 @@ input[type="file"]::file-selector-button {
     margin-left: 10px;
     padding: 0;
     height: 36.5px;
-    color: #1976d2;
+    color: rgba(25, 118, 210);
     width: 0px;
 
 }
@@ -131,24 +133,24 @@ select {
 }
 
 .custom-select:hover::after {
-    color: rgba(25, 118, 210,0.5)
+    color: #9a6fb0
 }
 
 button.Apply {
     height: 32px;
     margin-top: 15px;
     cursor: pointer;
-    background-color: #ffffff;
-    color: #1976d2;
-    border: 1px solid rgba(25, 118, 210, 0.5);
-    background-color: transparent;
+    background-color: #9a6fb0;
+    color: white;
+    border: none;
+    /* border: 1px solid rgba(25, 118, 210, 0.5); */
     font-weight: 500;
     font-size: 0.875rem;
     letter-spacing: 0.02857em;
-    text-transform: uppercase;
-    width:max-content;
+    text-transform: capitalize;
+    width:125px;
     transition: all ease-in-out 0.2s;
-    padding: 5px 15px;
+    padding: 5px 5px;
     border-radius: 4px;
 }
 button.delete {
@@ -158,7 +160,6 @@ button.delete {
     background-color: #ffffff;
     color: #f02c12;
     border: 1px solid #f02c12;
-    background-color: transparent;
     font-weight: 500;
     font-size: 0.7rem;
     letter-spacing: 0.02857em;
@@ -168,31 +169,46 @@ button.delete {
     padding: 2px 5px;
     border-radius: 2px;
 }
+
+button.delete:hover{
+    background-color: #f02c12;
+    color: #ffffff;
+}
+
+button.delete:focus{
+    background-color: #f02c12;
+    color: #ffffff;
+}
+
 h3{
     margin-bottom: 5px;
     word-wrap: break-word;
 }
 button.ShowData {
     height: 32px;
-    margin-top: 10px;
-    margin-left: 10px;
+    margin-top: 15px;
+    margin-left: 4px;
     cursor: pointer;
-    background-color: #ffffff;
-    color: #1976d2;
-    border: 1px solid rgba(25, 118, 210, 0.5);
-    background-color: transparent;
+    background-color: #9a6fb0;
+    color: white;
     font-weight: 500;
+    border: none;
+    width:131px;
     font-size: 0.875rem;
     transition: all ease-in-out 0.2s;
     letter-spacing: 0.02857em;
-    text-transform: uppercase;
-    width:max-content;
-    padding: 5px 15px;
+    text-transform: capitalize;
+    padding: 5px 5px;
     border-radius: 4px;
 }
+/* button.Apply:active, button.Apply:hover,
+button.ShowData:active, button.ShowData:hover{
+    background-color: rgba(25, 118, 210);
+
+} */
 h3{
     font-size: 0.875rem;
-    color: #1976d2;
+    color: #9a6fb0;
     font-weight: 500;
 }
 .Modal {
@@ -215,12 +231,7 @@ h2{
 }
 
 
-button.Process {
-    width: 116px;
-    height: 32px;
-    margin-top: 10px;
-    cursor: pointer;
-}
+
 
 .button-wrapper {
     position: absolute;

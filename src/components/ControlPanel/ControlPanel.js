@@ -8,6 +8,7 @@ import { FlyToInterpolator } from "deck.gl";
 import { viewportState } from "../../utils";
 import { useRecoilState } from "recoil";
 import Layers from "../MapComponent/Layers";
+import { styled, withStyles } from '@mui/styles';
 
 const customStyles = {
   overlay: {
@@ -30,6 +31,22 @@ const customStyles = {
     height: "80%",
   },
 };
+
+const ProcessButton = styled(LoadingButton)({
+
+  '&.MuiLoadingButton-root':{
+    backgroundColor: "#9a6fb0;",
+    color: "white",
+    fontWeight: 500,
+    textTransform:'capitalize',
+    border: "none",
+    '&:hover': {
+      backgroundColor: "#9a6fb0",
+  }
+}
+
+
+})
 
 Modal.setAppElement(document.getElementById("root"));
 
@@ -269,14 +286,14 @@ function ControlPanel() {
                       accept=".csv,.xlsx,.xls,.xml"
                       onChange={handleOnChange}
                     />
-                    <LoadingButton
+                    <ProcessButton
                       onClick={handleSubmit}
                       loading={buttonloading}
                       loadingIndicator="Loading…"
                       variant="outlined"
                     >
                       Process
-                    </LoadingButton>
+                    </ProcessButton>
                   </div>
                 </>
               )}
@@ -300,14 +317,14 @@ function ControlPanel() {
                       accept=".csv,.xlsx,.xls,.xml"
                       onChange={handleOnChange}
                     />
-                    <LoadingButton
+                    <ProcessButton
                       onClick={handleSubmit}
                       loading={buttonloading}
                       loadingIndicator="Loading…"
                       variant="outlined"
                     >
                       Process
-                    </LoadingButton>
+                    </ProcessButton>
                   </div>
                 </>
               )}
@@ -374,7 +391,7 @@ function ControlPanel() {
                     </div>
                   </div>
                   <button className="Apply" title="Submit" type="submit">
-                    APPLY
+                    Apply
                   </button>
                   {isShowData && (
                     <button
@@ -383,7 +400,7 @@ function ControlPanel() {
                       type="button"
                       onClick={openModal}
                     >
-                      Show Data Table
+                      Dataset
                     </button>
                   )}
                 </form>

@@ -1,9 +1,12 @@
 {
   "name": "vismap",
   "version": "1.0.0",
+  "homepage": "https://suwatsara.github.io/vis_map",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production"
@@ -59,6 +62,7 @@
     "csv-loader": "^3.0.3",
     "dotenv-webpack": "^8.0.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.73.0",

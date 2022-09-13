@@ -58,9 +58,6 @@ export const colorRange = [
 function formatLabel(t) {
   const date = new Date(t);
   const formatDate = d3.timeFormat("%d/%m/%y, %I %p");
-  // if (hour % 24 >= 12) {
-  //   return `${day}, ${+ (hour % 12 || 12) + " " + "PM"}`;
-  // }
   return formatDate(date);
 }
 
@@ -73,23 +70,25 @@ function Layers({ data, showCluster = true, viewstate }) {
     (d) => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]
   );
   const [hoverInfo, setHoverInfo] = useState({}); //hover info clsuter map
+
+  
   const [selected, setSelected] = useState([]);
   const [mode, setMode] = useState(null);
-  const radius = 5;
-
   let filteredSelected = selected.filter(
     (d) => d.timestamp >= filterValue[0] && d.timestamp <= filterValue[1]
   );
 
+
+  const radius = 5;
   const valid = data[0] && new Date(data[0].timestamp).getTime() > 0;
 
   let color_domain = [0, 1];
-  let max_points = 5;
-  const [mingridValue, setMingridvalue] = useState(1);
-  const [maxgridValue, setMaxgridvalue] = useState(5);
+  let max_points = 0;
+  const [mingridValue, setMingridvalue] = useState(0);
+  const [maxgridValue, setMaxgridvalue] = useState(0);
 
-  const [minheatValue, setMinheatvalue] = useState(1);
-  const [maxheatValue, setMaxheatvalue] = useState(5);
+  const [minheatValue, setMinheatvalue] = useState(0);
+  const [maxheatValue, setMaxheatvalue] = useState(0);
 
   const expandTooltip = (info) => {
     if (info.picked && showCluster) {
@@ -158,7 +157,7 @@ function Layers({ data, showCluster = true, viewstate }) {
     onSetColorDomain: (ecol) => {
       color_domain = ecol;
       setMinheatvalue(ecol[0]);
-      setMaxheatvalue(max_points);
+      setMaxheatvalue(ecol[1]);
     },
     visible: layerVisibility.cluster,
   });
@@ -264,7 +263,7 @@ function Layers({ data, showCluster = true, viewstate }) {
           min={timeRange[0]}
           max={timeRange[1]}
           value={filterValue}
-          animationSpeed={60 * 30 * 1000}
+          animationSpeed={300000}
           formatLabel={formatLabel}
           onChange={setFilter}
         />
