@@ -9,7 +9,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: __dirname + '/dist',
-        publicPath: "/",
+        publicPath: "/vis_map/",
         filename: 'bundle.js',
     },
     devServer: {

@@ -1,6 +1,7 @@
 {
   "name": "vismap",
   "version": "1.0.0",
+  "homepage": "https://suwatsara.github.io/vis_map",
   "description": "",
   "main": "index.js",
   "scripts": {
